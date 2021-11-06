@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}TestShop | {{ product.title }}{% endblock %}
+
+{% block content %}
+<article class="product">
+    <button type="button" class="product_add_to_cart">Add to cart</button>
+    <h1 class="product_title">{{ product.title }}</h1>
+    <p class="product_price">{{ product.price }}</p>
+    <p class="product_short_description">{{ product.short_description }}</p>
+    <p class="product_description">{{ product.description }}</p>
+    <p class="product_rating">Rating: {{ rating }}</p>
+    <aside class="similar_products">
+        {% for similar_product in similar_products %}
+            <section class="similar_product">
+                <h2 class="similar_product_title">{{ similar_product.title }}</h2>
+            </section>
+        {% endfor %}
+    </aside>
+    <aside class="reviews">
+        {% for review in reviews %}
+            <section class="review">
+                <p class="review_user">{{ review.user }}</p>
+                <p class="review_text">{{ review.text }}</p>
+            </section>
+        {% endfor %}
+    </aside>
+</article>
+{% endblock %}
