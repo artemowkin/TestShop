@@ -1,4 +1,5 @@
 from django.contrib.sessions.backends.db import SessionStore
+from django.db.models import Sum
 
 from products.models import Product
 from products.services import GetProductsService
@@ -16,6 +17,17 @@ class Cart:
     def _init_cart_session(self) -> None:
         """Initialize cart session"""
         self._session['cart'] = {'products': [], 'total_sum': 0.0}
+
+    def get_products(self) -> dict:
+        """Return all products in cart from session"""
+        cart_products_pks = self._session['cart']['products']
+        products = self._product_model.objects.filter(
+            pk__in=cart_products_pks
+        )
+        total_sum = products.aggregate(
+            products_sum=Sum('price')
+        )['products_sum']
+        return {'products': products, 'total_sum': total_sum}
 
     def add_product(self, product : Product) -> None:
         """Add the concrete product to cart"""

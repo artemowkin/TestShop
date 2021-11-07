@@ -13,6 +13,7 @@ selenium = "^4.0.0"
 Pillow = "^8.4.0"
 requests = "^2.26.0"
 simplejson = "^3.17.5"
+django-allauth = "^0.45.0"
 
 [tool.poetry.dev-dependencies]
 

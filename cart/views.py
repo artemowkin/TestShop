@@ -7,6 +7,15 @@ from .services import Cart
 from products.services import GetProductsService
 
 
+class CartProductsView(LoginRequiredMixin, View):
+    raise_exception = True
+
+    def get(self, request):
+        cart = Cart(request.session)
+        cart_products = cart.get_products()
+        return render(request, 'cart/all_products.html', cart_products)
+
+
 class AddCartProductView(LoginRequiredMixin, View):
     raise_exception = True
 

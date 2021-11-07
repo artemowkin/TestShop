@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}TestShop | Cart{% endblock %}
+
+{% block content %}
+{% for product in products %}
+    <section class="product">
+        <h2 class="product_title">{{ product.title }}</h2>
+    </section>
+{% empty %}
+    <p>There are no products in the cart :(</p>
+{% endfor %}
+{% if total_sum %}
+    <p class="products_total_sum">{{ total_sum }}</p>
+{% endif %}
+{% endblock %}

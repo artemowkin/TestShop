@@ -32,3 +32,26 @@ class AddProductToCartViewTests(TestCase):
         ))
         self.assertEqual(response.status_code, 201)
 
+
+class CartProductsViewTests(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser', password='testpass'
+        )
+        self.category = Category.objects.create(title='some category')
+        self.product = Product.objects.create(
+            title='test_product', price='500.00',
+            short_description='test short description',
+            description='test description', category=self.category
+        )
+        self.client.login(username='testuser', password='testpass')
+        self.client.session['cart'] = {
+            'products': [str(self.product.pk)],
+            'total_sum': self.product.price,
+        }
+
+    def test_get(self):
+        response = self.client.get(reverse('cart_all_products'))
+        self.assertEqual(response.status_code, 200)
+
