@@ -65,3 +65,15 @@ class ConcreteProductTests(FunctionalTest):
         ).text
         self.assertEqual(float(total_sum), float(self.product.price))
 
+    def test_clear(self):
+        clear_button = self.browser.find_element(
+            'css selector', '.clear_cart_button'
+        )
+        self.assertTrue(clear_button)
+        clear_button.click()
+        time.sleep(1)
+        products = self.browser.find_elements(
+            'css selector', '.product'
+        )
+        self.assertEqual(len(products), 0)
+

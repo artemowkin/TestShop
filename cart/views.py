@@ -15,6 +15,11 @@ class CartProductsView(LoginRequiredMixin, View):
         cart_products = cart.get_products()
         return render(request, 'cart/all_products.html', cart_products)
 
+    def post(self, request):
+        cart = Cart(request.session)
+        cart.clear()
+        return render(request, 'cart/all_products.html')
+
 
 class AddCartProductView(LoginRequiredMixin, View):
     raise_exception = True

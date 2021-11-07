@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth import get_user_model
 
 from .base import FunctionalTest
@@ -13,7 +15,8 @@ class ConcreteProductTests(FunctionalTest):
     def setUp(self):
         super().setUp()
         self.user = User.objects.create_superuser(
-            username='testuser', password='testpass'
+            username='testuser', password='testpass',
+            email='testuser@gmail.com'
         )
         self.category = Category.objects.create(title='test_category')
         self.product = Product.objects.create(
@@ -84,13 +87,31 @@ class ConcreteProductTests(FunctionalTest):
         )
         self.assertTrue(add_to_cart_button)
 
+    def _login_user(self):
+        self.browser.get(self.live_server_url + '/auth/login/')
+        login = self.browser.find_element('css selector', '#id_login')
+        password = self.browser.find_element('css selector', '#id_password')
+        submit = self.browser.find_element('css selector', '.primaryAction')
+        login.send_keys('testuser@gmail.com')
+        password.send_keys('testpass')
+        submit.click()
+        time.sleep(1)
+
     def test_product_add_to_cart(self):
+        self._login_user()
+        self.browser.get(self.live_server_url + f'/shop/{self.product.pk}/')
         add_to_cart_button = self.browser.find_element(
             'css selector', '.product_add_to_cart'
         )
         add_to_cart_button.click()
-        self.assertIn('cart', self.client.session)
-        cart = self.client.session['cart']
-        self.assertIn('products', cart)
-        self.assertEqual(cart['products'], [self.product.pk])
+        time.sleep(1)
+        self.browser.get(self.live_server_url + '/cart/')
+        cart_products = self.browser.find_elements(
+            'css selector', '.product'
+        )
+        self.assertEqual(len(cart_products), 1)
+        product_title = cart_products[0].find_element(
+            'css selector', '.product_title'
+        ).text
+        self.assertEqual(product_title, self.product.title)
 

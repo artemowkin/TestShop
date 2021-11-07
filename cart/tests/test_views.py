@@ -55,3 +55,7 @@ class CartProductsViewTests(TestCase):
         response = self.client.get(reverse('cart_all_products'))
         self.assertEqual(response.status_code, 200)
 
+    def test_post(self):
+        response = self.client.post(reverse('cart_all_products'))
+        self.assertEqual(response.status_code, 200)
+

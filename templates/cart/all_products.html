@@ -13,4 +13,8 @@
 {% if total_sum %}
     <p class="products_total_sum">{{ total_sum }}</p>
 {% endif %}
+<form method="POST" class="clear_cart_form">
+    {% csrf_token %}
+    <input class="clear_cart_button" type="submit" value="Clear">
+</form>
 {% endblock %}
