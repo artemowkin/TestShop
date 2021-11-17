@@ -32,3 +32,4 @@ class CartTests(TestCase):
         self.assertEqual(
             float(cart_products['total_sum']), float(self.product.price)
         )
+

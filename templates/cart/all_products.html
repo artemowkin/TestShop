@@ -4,7 +4,11 @@
 
 {% block content %}
 {% for product in products %}
-    <section class="product">
+    <section class="product" data-pk="{{ product.pk }}">
+        <form method="POST" action="{% url 'remove_cart_product' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="remove_product">Remove</button>
+        </form>
         <h2 class="product_title">{{ product.title }}</h2>
     </section>
 {% empty %}

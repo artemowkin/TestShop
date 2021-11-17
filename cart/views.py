@@ -1,6 +1,7 @@
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http import JsonResponse
 
 from .services import Cart
@@ -30,4 +31,15 @@ class AddCartProductView(LoginRequiredMixin, View):
         cart = Cart(request.session)
         cart.add_product(product)
         return JsonResponse({'added': True}, status=201)
+
+
+class RemoveCartProductView(LoginRequiredMixin, View):
+    raise_exception = True
+
+    def post(self, request, product_pk):
+        get_products_service = GetProductsService()
+        product = get_products_service.get_concrete(product_pk)
+        cart = Cart(request.session)
+        cart.remove_product(product)
+        return redirect(reverse('cart_all_products'))
 

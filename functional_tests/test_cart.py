@@ -77,3 +77,15 @@ class ConcreteProductTests(FunctionalTest):
         )
         self.assertEqual(len(products), 0)
 
+    def test_remove(self):
+        self.browser.get(self.live_server_url + '/cart/')
+        remove_button = self.browser.find_element(
+            'css selector', '.remove_product'
+        )
+        remove_button.click()
+        time.sleep(1)
+        products = self.browser.find_elements(
+            'css selector', '.product'
+        )
+        self.assertEqual(len(products), 0)
+

@@ -32,10 +32,11 @@ class Cart:
     def add_product(self, product : Product) -> None:
         """Add the concrete product to cart"""
         session_cart = self._session['cart']
-        session_cart['products'].append(str(product.pk))
-        session_cart['total_sum'] += float(product.price)
-        self._session['cart'] = session_cart
-        self._session.modified = True
+        if not str(product.pk) in session_cart['products']:
+            session_cart['products'].append(str(product.pk))
+            session_cart['total_sum'] += float(product.price)
+            self._session['cart'] = session_cart
+            self._session.modified = True
 
     def clear(self) -> None:
         """Clear products from cart"""
@@ -44,4 +45,13 @@ class Cart:
         session_cart['total_sum'] = 0.0
         self._session['cart'] = session_cart
         self._session.modified = True
+
+    def remove_product(self, product : Product) -> None:
+        """Remove product from cart"""
+        session_cart = self._session['cart']
+        if str(product.pk) in session_cart['products']:
+            session_cart['products'].remove(str(product.pk))
+            session_cart['total_sum'] -= float(product.price)
+            self._session['cart'] = session_cart
+            self._session.modified = True
 
