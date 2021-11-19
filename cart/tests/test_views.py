@@ -82,5 +82,5 @@ class RemoveCartProductViewTests(TestCase):
         response = self.client.post(
             reverse('remove_cart_product', args=[str(self.product.pk)])
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 

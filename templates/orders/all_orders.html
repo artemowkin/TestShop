@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}TestShop | Orders{% endblock %}
+
+{% block content %}
+{% for order in orders %}
+    <section class="order">
+        <h2 class="order_id">{{ order.id }}</h2>
+    </section>
+{% empty %}
+    <p>There are no orders :(</p>
+{% endfor %}
+{% endblock %}
