@@ -3,6 +3,7 @@ from django.core.validators import (
     RegexValidator, MaxValueValidator, MinValueValidator
 )
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from products.models import Product
 
@@ -55,3 +56,6 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'orders'
+
+    def get_absolute_url(self) -> str:
+        return reverse('homepage')

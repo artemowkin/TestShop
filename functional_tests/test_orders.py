@@ -37,11 +37,6 @@ class OrdersTests(FunctionalTest):
             address=self.address, receiver=self.receiver
         )
         self.order.products.set([self.product])
-        self.client.session['cart'] = {
-            'products': [str(self.product.pk)],
-            'total_sum': float(self.product.price),
-        }
-        self.client.session.save()
         self._login_user()
         time.sleep(1)
 
@@ -54,6 +49,14 @@ class OrdersTests(FunctionalTest):
         password.send_keys('testpass')
         submit.click()
 
+    def _add_product_to_cart(self):
+        self.browser.get(self.live_server_url + f'/shop/{self.product.pk}/')
+        add_button = self.browser.find_element(
+            'css selector', '.product_add_to_cart'
+        )
+        add_button.click()
+        time.sleep(1)
+
     def test_get_all_user_orders(self):
         self.browser.get(self.live_server_url + '/orders/')
         orders = self.browser.find_elements(
@@ -64,3 +67,118 @@ class OrdersTests(FunctionalTest):
             'css selector', '.order_id'
         ).text
         self.assertEqual(int(order_id), self.order.pk)
+
+    def test_create_a_new_order(self):
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + '/cart/')
+        create_order_link = self.browser.find_element(
+            'css selector', '.create_order'
+        )
+        create_order_link.click()
+        time.sleep(1)
+
+        # Receiver information
+        first_name = self.browser.find_element(
+            'css selector', '#id_first_name'
+        )
+        last_name = self.browser.find_element(
+            'css selector', '#id_last_name'
+        )
+        phone = self.browser.find_element(
+            'css selector', '#id_phone'
+        )
+        first_name.send_keys('Ivan')
+        last_name.send_keys('Ivanov')
+        phone.send_keys('82225552020')
+
+        # Address information
+        city = self.browser.find_element(
+            'css selector', '#id_city'
+        )
+        street = self.browser.find_element(
+            'css selector', '#id_street'
+        )
+        house = self.browser.find_element(
+            'css selector', '#id_house'
+        )
+        apartment = self.browser.find_element(
+            'css selector', '#id_apartment'
+        )
+        postal_code = self.browser.find_element(
+            'css selector', '#id_postal_code'
+        )
+        city.send_keys('Москва')
+        street.send_keys('Манежная')
+        house.send_keys('25')
+        apartment.send_keys('5')
+        postal_code.send_keys('105206')
+        submit_button = self.browser.find_element(
+            'css selector', 'input[type=submit]'
+        )
+        submit_button.click()
+        time.sleep(1)
+        self.browser.get(self.live_server_url + '/orders/')
+        time.sleep(1)
+        orders = self.browser.find_elements(
+            'css selector', '.order'
+        )
+        self.assertEqual(len(orders), 2)
+
+    def test_create_a_new_order_with_existing_number(self):
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + '/cart/')
+        create_order_link = self.browser.find_element(
+            'css selector', '.create_order'
+        )
+        create_order_link.click()
+        time.sleep(1)
+
+        # Receiver information
+        first_name = self.browser.find_element(
+            'css selector', '#id_first_name'
+        )
+        last_name = self.browser.find_element(
+            'css selector', '#id_last_name'
+        )
+        phone = self.browser.find_element(
+            'css selector', '#id_phone'
+        )
+        first_name.send_keys('Ivan')
+        last_name.send_keys('Ivanov')
+        phone.send_keys('88005553535')
+
+        # Address information
+        city = self.browser.find_element(
+            'css selector', '#id_city'
+        )
+        street = self.browser.find_element(
+            'css selector', '#id_street'
+        )
+        house = self.browser.find_element(
+            'css selector', '#id_house'
+        )
+        apartment = self.browser.find_element(
+            'css selector', '#id_apartment'
+        )
+        postal_code = self.browser.find_element(
+            'css selector', '#id_postal_code'
+        )
+        city.send_keys('Москва')
+        street.send_keys('Манежная')
+        house.send_keys('25')
+        apartment.send_keys('5')
+        postal_code.send_keys('105206')
+        submit_button = self.browser.find_element(
+            'css selector', 'input[type=submit]'
+        )
+        submit_button.click()
+        time.sleep(1)
+        errorlist = self.browser.find_element('css selector', '.errorlist')
+        self.assertTrue(errorlist)
+
+    def test_cart_page_has_no_create_order_link_if_cart_is_empty(self):
+        self.browser.get(self.live_server_url + '/cart/')
+        create_order_link = self.browser.find_elements(
+            'css selector', '.create_order'
+        )
+        self.assertEqual(len(create_order_link), 0)
