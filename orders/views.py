@@ -4,7 +4,7 @@ from django.views import View
 from django.core.exceptions import ValidationError
 
 from cart.services import Cart
-from .services import GetOrdersService, CreateOrderService
+from .services import GetOrdersService, CreateOrderService, delete_order
 from .forms import CreateOrderForm
 
 
@@ -58,6 +58,20 @@ class ConcreteOrderView(View):
 	def get(self, request, pk):
 		get_orders_service = GetOrdersService(request.user)
 		order = get_orders_service.get_concrete(pk)
-		return render(request, 'orders/concrete.html', {
+		return render(self.request, 'orders/concrete.html', {
+			'order': order
+		})
+
+
+class DeleteOrderView(View):
+
+	def post(self, request, pk):
+		get_orders_service = GetOrdersService(request.user)
+		order = get_orders_service.get_concrete(pk)
+		deleted = delete_order(request.user, order)
+		if deleted:
+			return redirect(reverse('all_orders'))
+
+		return render(self.request, 'orders/concrete.html', {
 			'order': order
 		})

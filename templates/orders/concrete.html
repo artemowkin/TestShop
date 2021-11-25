@@ -5,5 +5,11 @@
 {% block content %}
 <section class="order">
     <h2 class="order_id">{{ order.id }}</h2>
+    {% if order.status != 'sent' %}
+        <form action="{% url 'delete_order' order.pk %}" method="POST">
+            {% csrf_token %}
+            <input class="delete_order" type="submit" value="Delete">
+        </form>
+    {% endif %}
 </section>
 {% endblock %}

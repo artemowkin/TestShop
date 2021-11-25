@@ -190,3 +190,27 @@ class OrdersTests(FunctionalTest):
             'css selector', '.order_id'
         ).text
         self.assertEqual(order_id, str(self.order.pk))
+
+
+    def test_delete_a_concrete_order(self):
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + f"/orders/{self.order.pk}/")
+        delete_order_button = self.browser.find_element(
+            'css selector', '.delete_order'
+        )
+        delete_order_button.click()
+        time.sleep(1)
+        orders = self.browser.find_elements(
+            'css selector', '.order'
+        )
+        self.assertEqual(len(orders), 0)
+
+    def test_delete_a_concrete_order_with_sent_status(self):
+        self.order.status = 'sent'
+        self.order.save()
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + f"/orders/{self.order.pk}/")
+        delete_order_buttons = self.browser.find_elements(
+            'css selector', '.delete_order'
+        )
+        self.assertEqual(len(delete_order_buttons), 0)

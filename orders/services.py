@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import QuerySet
 from django.core.exceptions import PermissionDenied
 from django.contrib.sessions.backends.db import SessionStore
+from django.http import Http404
 
 from .models import Order, Address, Receiver
 from cart.services import Cart
@@ -76,3 +77,15 @@ class CreateOrderService:
         receiver.full_clean()
         receiver.save()
         return receiver
+
+
+def delete_order(user: User, order: Order) -> bool:
+    """
+    Delete a concrete order and return True if order has been
+    deleted else False
+    """
+    if not user.is_authenticated: raise PermissionDenied
+    if user != order.user: raise Http404
+    if order.status == 'sent': return False
+    order.delete()
+    return True

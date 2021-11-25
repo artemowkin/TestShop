@@ -10,4 +10,8 @@ urlpatterns = [
 		'<int:pk>/', views.ConcreteOrderView.as_view(),
 		name='concrete_order'
 	),
+	path(
+		'delete/<int:pk>/', views.DeleteOrderView.as_view(),
+		name='delete_order'
+	)
 ]
