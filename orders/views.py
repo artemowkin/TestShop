@@ -51,3 +51,13 @@ class CreateOrderView(View):
 			return self.form_invalid(create_order_form)
 
 		return redirect(order.get_absolute_url())
+
+
+class ConcreteOrderView(View):
+
+	def get(self, request, pk):
+		get_orders_service = GetOrdersService(request.user)
+		order = get_orders_service.get_concrete(pk)
+		return render(request, 'orders/concrete.html', {
+			'order': order
+		})

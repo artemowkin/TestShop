@@ -25,6 +25,10 @@ class GetOrdersService:
         """Return all user orders"""
         return self._model.objects.filter(user=self._user)
 
+    def get_concrete(self, pk: int) -> Order:
+        """Return a concrete order using pk"""
+        return get_object_or_404(self._model, pk=pk, user=self._user)
+
 
 class CreateOrderService:
     """Service to create a new user order"""

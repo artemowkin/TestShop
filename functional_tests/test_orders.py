@@ -182,3 +182,11 @@ class OrdersTests(FunctionalTest):
             'css selector', '.create_order'
         )
         self.assertEqual(len(create_order_link), 0)
+
+    def test_get_concrete_order(self):
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + f"/orders/{self.order.pk}/")
+        order_id = self.browser.find_element(
+            'css selector', '.order_id'
+        ).text
+        self.assertEqual(order_id, str(self.order.pk))

@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.http import Http404
 
 from ..services import GetOrdersService, CreateOrderService
 from ..models import Order, Address, Receiver
@@ -44,6 +45,28 @@ class GetOrdersServiceTests(TestCase):
     def test_get_all_user_orders_with_not_logged_in_user(self):
         with self.assertRaises(PermissionDenied):
             service = GetOrdersService(AnonymousUser())
+            service.get_all()
+
+    def test_get_concrete_order_with_logged_in_user(self):
+        order = self.service.get_concrete(self.order.pk)
+        self.assertEqual(order.pk, self.order.pk)
+
+    def test_get_concrete_order_with_not_logged_in_user(self):
+        with self.assertRaises(PermissionDenied):
+            service = GetOrdersService(AnonymousUser())
+            service.get_concrete(self.order.pk)
+
+    def test_get_concrete_order_with_not_existing_order_pk(self):
+        with self.assertRaises(Http404):
+            self.service.get_concrete(99999)
+
+    def test_get_concrete_order_with_user_who_is_not_owner_of_order(self):
+        new_user = User.objects.create_user(
+            username='newuser', password='testpass'
+        )
+        with self.assertRaises(Http404):
+            service = GetOrdersService(new_user)
+            service.get_concrete(self.order.pk)
 
 
 class CreateOrderServiceTests(TestCase):

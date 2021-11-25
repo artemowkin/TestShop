@@ -8,8 +8,7 @@ class CreateOrderForm(forms.Form):
     last_name = forms.CharField(max_length=100)
     phone = forms.RegexField(
         regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$",
-        error_messages={'invalid': 'Phone number is incorrect'},
-        max_length=20
+        error_messages={'invalid': 'Phone number is incorrect'}
     )
     city = forms.CharField(max_length=100)
     street = forms.CharField(max_length=100)
