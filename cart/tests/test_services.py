@@ -20,10 +20,11 @@ class CartTests(TestCase):
             short_description='test short description',
             description='test description', category=self.category
         )
-        self.cart = Cart(self.client.session)
+        session = self.client.session
+        self.cart = Cart(session)
         self.client.login(username='testuser', password='testpass')
 
-    def test_get_products(self):
+    def test_get_products_and_add_product(self):
         self.cart.add_product(self.product)
         cart_products = self.cart.get_products()
 
@@ -33,3 +34,18 @@ class CartTests(TestCase):
             float(cart_products['total_sum']), float(self.product.price)
         )
 
+    def test_clear(self):
+        self.cart.add_product(self.product)
+        self.cart.clear()
+        cart_products = self.cart.get_products()
+
+        self.assertEqual(len(cart_products['products']), 0)
+        self.assertEqual(cart_products['total_sum'], 0.0)
+
+    def test_remove_product(self):
+        self.cart.add_product(self.product)
+        self.cart.remove_product(self.product)
+        cart_products = self.cart.get_products()
+
+        self.assertEqual(len(cart_products['products']), 0)
+        self.assertEqual(cart_products['total_sum'], 0.0)

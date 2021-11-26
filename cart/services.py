@@ -26,7 +26,7 @@ class Cart:
         )
         total_sum = products.aggregate(
             products_sum=Sum('price')
-        )['products_sum']
+        )['products_sum'] or 0.0
         return {'products': products, 'total_sum': total_sum}
 
     def add_product(self, product : Product) -> None:
