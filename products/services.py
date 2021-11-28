@@ -1,8 +1,10 @@
+import re
 from uuid import UUID
 from typing import Optional, Union
 
 from django.db.models import QuerySet, Avg, Q
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ValidationError
 
 from .models import Product
 
@@ -62,7 +64,9 @@ class ProductsSearchService:
         and return the result queryset
         """
         result_queryset = self._model.objects.all()
-        methods = [key for key in kwargs if hasattr(self, key)]
+        methods = [
+            key for key in kwargs if hasattr(self, key) and kwargs[key][0]
+        ]
         for method_name in methods:
             result_queryset = self._get_method_queryset(
                 kwargs, method_name, result_queryset
@@ -73,7 +77,8 @@ class ProductsSearchService:
     def ord_by(self, ordering_type: str,
             queryset: Optional[QuerySet] = None) -> QuerySet:
         """Order queryset by `ordering_type`"""
-        ordering_field = self._ordering_fields[ordering_type]
+        ordering_field = self._ordering_fields.get(ordering_type)
+        if not ordering_field: return queryset
         if not queryset:
             return self._model.objects.order_by(ordering_field)
 
@@ -82,18 +87,31 @@ class ProductsSearchService:
     def category(self, category_pk: Union[str,UUID],
             queryset: Optional[QuerySet]) -> QuerySet:
         """Search products with concrete category"""
+        if not self._is_category_pk_valid(category_pk): return queryset
         if not queryset:
             return self._model.objects.filter(category__pk=category_pk)
 
         return queryset.filter(category__pk=category_pk)
 
-    def max_price(self, max_price_value: int,
+    def _is_category_pk_valid(self, category_pk: Union[str,UUID]) -> bool:
+        """Check is category pk valid UUID"""
+        return re.match(
+            r"\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b",
+            str(category_pk)
+        )
+
+    def max_price(self, max_price_value: Union[int,str],
             queryset: Optional[QuerySet]) -> QuerySet:
         """Search products with price less or equal max_price_value"""
+        if not self._is_max_price_valid(max_price_value): return queryset
         if not queryset:
             return self._model.objects.filter(price__lte=max_price_value)
 
         return queryset.filter(price__lte=max_price_value)
+
+    def _is_max_price_valid(self, max_price: Union[int,str]) -> bool:
+        """Check does max price contain only digits"""
+        return re.match(r"\d+", max_price)
 
     def query(self, query_value: str,
             queryset: Optional[QuerySet]) -> QuerySet:
