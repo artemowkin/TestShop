@@ -1,13 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}TestShop | Home{% endblock %}
 
 {% block content %}
-{% for product in products %}
-    <section class="product">
-        <h2 class="product_title">{{ product.title }}</h2>
-    </section>
-{% empty %}
-    <p>There are no products in the shop :(</p>
-{% endfor %}
+<section class="preview">
+    <div class="preview_text">
+        <h3>TestShop</h3>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore molestias aut nihil quos, exercitationem error, velit laudantium, incidunt saepe minima nisi, porro quidem neque voluptatem? Iusto odio necessitatibus dicta quia.</p>
+    </div>
+    <div class="preview_illustration">
+        <img src="{% static 'images/taxi-868.png' %}" alt="illustration">
+    </div>
+</section>
+<section class="products">
+    {% for product in products %}
+        <section class="product">
+            {% for image in product.images.all %}
+                {% if forloop.first %}
+                    <img src="{{ image.image.url }}" alt="product_preview">
+                {% endif %}
+            {% endfor %}
+            <h2 class="product_title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+            <p class="product_short_description">{{ product.short_description }}</p>
+        </section>
+    {% empty %}
+        <p>There are no products in the shop :(</p>
+    {% endfor %}
+</section>
+<div class="more_link"><a href="{% url 'shop' %}">See more...</a></div>
 {% endblock %}

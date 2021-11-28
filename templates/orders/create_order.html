@@ -3,9 +3,9 @@
 {% block title %}TestShop | Create Order{% endblock %}
 
 {% block content %}
-<form method="POST" action="">
+<form method="POST" action="{% url 'create_order' %}">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" value="Create Order">
+	<input id="create_order_button" type="submit" value="Create Order">
 </form>
 {% endblock %}

@@ -15,9 +15,9 @@ class GetProductsService:
         self._model = Product
 
     def get_last(self) -> list:
-        """Return last 50 products ordered by publication date"""
+        """Return last 9 products ordered by publication date"""
         all_products = self._model.objects.all()
-        last_products = all_products.order_by('-pub_datetime')[:50:1]
+        last_products = all_products.order_by('-pub_datetime')[:9:1]
         return last_products
 
     def get_concrete(self, pk: UUID) -> Product:
@@ -111,7 +111,7 @@ class ProductsSearchService:
 
     def _is_max_price_valid(self, max_price: Union[int,str]) -> bool:
         """Check does max price contain only digits"""
-        return re.match(r"\d+", max_price)
+        return re.match(r"\d+", str(max_price))
 
     def query(self, query_value: str,
             queryset: Optional[QuerySet]) -> QuerySet:

@@ -1,20 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
+        <link href="{% static 'css/base.css' %}" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap" rel="stylesheet"> 
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
         <header>
-            <div class="logo">
-                <h3>TestShop</h3>
+            <div class="header_top">
+                <div class="logo">
+                    <h3>TestShop</h3>
+                </div>
+                <nav>
+                    <a href="{% url 'homepage' %}" class="header_link">Home</a>
+                    <a href="{% url 'shop' %}" class="header_link">Shop</a>
+                    <a href="{% url 'cart_all_products' %}" class="header_link">Cart</a>
+                    <a href="{% url 'all_orders' %}" class="header_link">Orders</a>
+                </nav>
             </div>
-            <nav>
-                <a href="{% url 'homepage' %}" class="header_link">Home</a>
-                <a href="{% url 'shop' %}" class="header_link">Shop</a>
-                <a href="{% url 'cart_all_products' %}" class="header_link">Cart</a>
-                <a href="{% url 'all_orders' %}" class="header_link">Orders</a>
-            </nav>
             <form action="{% url 'shop' %}" method="GET">
                 <select name="category" class="search_category_field">
                     <option value="">Select category</option>
@@ -26,10 +33,13 @@
                     <option value="price_down">Expensive at first</option>
                     <option value="price_up">Cheaper at first</option>
                 </select>
-                <input type="number" name="max_price" class="search_max_price_field">
-                <input type="search" name="query" class="search_query_field">
-                <input type="submit" value="Search">
+                <input type="number" name="max_price" class="search_max_price_field" placeholder="Maximum price value">
+                <input type="search" name="query" class="search_query_field" placeholder="Search query">
+                <input type="submit" value="Search" class="search_submit_button">
+            </form>
         </header>
-        {% block content %}{% endblock %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
     </body>
 </html>

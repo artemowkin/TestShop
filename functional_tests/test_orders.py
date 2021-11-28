@@ -113,7 +113,7 @@ class OrdersTests(FunctionalTest):
         apartment.send_keys('5')
         postal_code.send_keys('105206')
         submit_button = self.browser.find_element(
-            'css selector', 'input[type=submit]'
+            'css selector', '#create_order_button'
         )
         submit_button.click()
         time.sleep(1)
@@ -169,7 +169,7 @@ class OrdersTests(FunctionalTest):
         apartment.send_keys('5')
         postal_code.send_keys('105206')
         submit_button = self.browser.find_element(
-            'css selector', 'input[type=submit]'
+            'css selector', '#create_order_button'
         )
         submit_button.click()
         time.sleep(1)

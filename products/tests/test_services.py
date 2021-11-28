@@ -29,9 +29,9 @@ class GetProductsServiceTests(TestCase):
 
     def test_get_last(self):
         last_products = self.service.get_last()
-        self.assertEqual(len(last_products), 50)
+        self.assertEqual(len(last_products), 9)
         self.assertEqual(last_products[0].title, 'new product51')
-        self.assertEqual(last_products[-1].title, 'new product2')
+        self.assertEqual(last_products[-1].title, 'new product43')
         self.assertGreater(
             last_products[1].pub_datetime, last_products[-1].pub_datetime
         )
@@ -104,7 +104,7 @@ class ProductsSearchServiceTests(TestCase):
         self.service = ProductsSearchService()
 
     def test_search_with_ordering_by_price_to_down(self):
-        products = self.service.search(ord_by='price_down')
+        products = self.service.search(ord_by=['price_down'])
 
         self.assertEqual(products.count(), 100)
         self.assertGreater(products[0].price, products[1].price)
@@ -121,13 +121,13 @@ class ProductsSearchServiceTests(TestCase):
         self.assertEqual(products.count(), 100)
 
     def test_search_by_category(self):
-        products = self.service.search(category=self.first_category.pk)
+        products = self.service.search(category=[self.first_category.pk])
 
         self.assertEqual(products.count(), 50)
         self.assertEqual(products[0].category, self.first_category)
 
     def test_search_by_max_price(self):
-        products = self.service.search(max_price=500, ord_by='price_down')
+        products = self.service.search(max_price=[500], ord_by=['price_down'])
 
         self.assertLessEqual(products[0].price, 500)
 

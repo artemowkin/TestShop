@@ -27,7 +27,7 @@ class HomePageFunctionalTests(FunctionalTest):
             'css selector', '.product_title'
         ).text
 
-        self.assertEqual(len(products), 50)
+        self.assertEqual(len(products), 9)
         self.assertEqual(first_product_title, 'test_product51')
-        self.assertEqual(last_product_title, 'test_product2')
+        self.assertEqual(last_product_title, 'test_product43')
 
