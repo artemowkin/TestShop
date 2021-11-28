@@ -141,6 +141,7 @@ main {
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
+    margin-top: 2rem;
 }
 
 .product {
@@ -152,7 +153,6 @@ main {
     max-width: 350px;
     border-radius: 1rem;
     padding: 2rem 1rem;
-    margin-top: 2rem;
 }
 
 .product:hover {
