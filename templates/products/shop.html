@@ -3,11 +3,20 @@
 {% block title %}TestShop | Shop{% endblock %}
 
 {% block content %}
-{% for product in products %}
-    <section class="product">
-        <h2 class="product_title">{{ product.title }}</h2>
-    </section>
-{% empty %}
-    <p>There are no products in the shop :(</p>
-{% endfor %}
+<section class="products">
+    {% for product in products %}
+        <section class="product">
+            {% for image in product.images.all %}
+                {% if forloop.first %}
+                    <img src="{{ image.image.url }}" alt="product_preview">
+                {% endif %}
+            {% endfor %}
+            <h2 class="product_title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+            <p class="product_price">{{ product.price }} $</p>
+            <p class="product_short_description">{{ product.short_description }}</p>
+        </section>
+    {% empty %}
+        <p>There are no products in the shop :(</p>
+    {% endfor %}
+</section>
 {% endblock %}
