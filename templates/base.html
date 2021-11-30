@@ -20,6 +20,11 @@
                     <a href="{% url 'shop' %}" class="header_link">Shop</a>
                     <a href="{% url 'cart_all_products' %}" class="header_link">Cart</a>
                     <a href="{% url 'all_orders' %}" class="header_link">Orders</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'account_logout' %}" class="header_link">Log Out</a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="header_link">Log In</a>
+                    {% endif %}
                 </nav>
             </div>
             <form action="{% url 'shop' %}" method="GET">

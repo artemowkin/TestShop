@@ -159,6 +159,7 @@ main {
     width: 100%;
     border-radius: 1rem;
     padding: 2rem 1rem;
+    transition: background-color .25s ease-in-out;
 }
 
 .product:hover {
@@ -172,7 +173,7 @@ main {
 }
 
 .product_title {
-    margin: 1rem 0 .5rem;
+    margin: 1rem 0 0;
     text-align: center;
 }
 

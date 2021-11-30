@@ -22,6 +22,7 @@
                 {% endif %}
             {% endfor %}
             <h2 class="product_title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+            <p class="product_price">{{ product.price }} $</p>
             <p class="product_short_description">{{ product.short_description }}</p>
         </section>
     {% empty %}
