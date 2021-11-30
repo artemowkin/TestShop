@@ -144,10 +144,17 @@ main {
 
 .products {
     display: grid;
-    grid-template: repeat(1, 1fr) / repeat(auto-fit, minmax(320px, 1fr));
+    grid-template: repeat(1, 1fr) / repeat(auto-fit, minmax(290px, 320px));
     width: 100%;
     gap: 1rem;
+    justify-content: space-between;
     margin-top: 2rem;
+}
+
+@media (max-width: 764px) {
+    .products {
+        justify-content: center;
+    }
 }
 
 .product {
