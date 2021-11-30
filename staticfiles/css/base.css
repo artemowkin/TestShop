@@ -151,12 +151,6 @@ main {
     margin-top: 2rem;
 }
 
-@media (max-width: 764px) {
-    .products {
-        justify-content: center;
-    }
-}
-
 .product {
     display: flex;
     flex-direction: column;
