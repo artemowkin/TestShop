@@ -53,17 +53,17 @@ class ConcreteProductTests(FunctionalTest):
 
     def test_get_all_cart_products(self):
         cart_products = self.browser.find_elements(
-            'css selector', '.product'
+            'css selector', '.cart_product'
         )
         self.assertEqual(len(cart_products), 1)
         cart_product_title = cart_products[0].find_element(
-            'css selector', '.product_title'
+            'css selector', '.cart_product_title'
         ).text
         self.assertEqual(cart_product_title, self.product.title)
         total_sum = self.browser.find_element(
-            'css selector', '.products_total_sum'
+            'css selector', '.cart_total_sum'
         ).text
-        self.assertEqual(float(total_sum), float(self.product.price))
+        self.assertEqual(total_sum, f"Total cart sum: {self.product.price} $")
 
     def test_clear(self):
         clear_button = self.browser.find_element(
@@ -80,7 +80,7 @@ class ConcreteProductTests(FunctionalTest):
     def test_remove(self):
         self.browser.get(self.live_server_url + '/cart/')
         remove_button = self.browser.find_element(
-            'css selector', '.remove_product'
+            'css selector', '.cart_remove_product'
         )
         remove_button.click()
         time.sleep(1)

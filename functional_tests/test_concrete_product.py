@@ -107,11 +107,11 @@ class ConcreteProductTests(FunctionalTest):
         time.sleep(1)
         self.browser.get(self.live_server_url + '/cart/')
         cart_products = self.browser.find_elements(
-            'css selector', '.product'
+            'css selector', '.cart_product'
         )
         self.assertEqual(len(cart_products), 1)
         product_title = cart_products[0].find_element(
-            'css selector', '.product_title'
+            'css selector', '.cart_product_title'
         ).text
         self.assertEqual(product_title, self.product.title)
 
