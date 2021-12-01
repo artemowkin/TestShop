@@ -4,24 +4,36 @@
 
 {% block content %}
 {% for product in products %}
-    <section class="product" data-pk="{{ product.pk }}">
+    <section class="cart_product">
+        <div class="cart_product_left">
+            {% for image in product.images.all %}
+                {% if forloop.first %}
+                    <img src="{{ image.image.url }}" alt="product_preview">
+                {% endif %}
+            {% endfor %}
+            <div>
+                <h2 class="cart_product_title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+                <p class="cart_product_price">{{ product.price }} $</p>
+            </div>
+        </div>
         <form method="POST" action="{% url 'remove_cart_product' product.pk %}">
             {% csrf_token %}
-            <button type="submit" class="remove_product">Remove</button>
+            <button type="submit" class="cart_remove_product">Remove</button>
         </form>
-        <h2 class="product_title">{{ product.title }}</h2>
     </section>
 {% empty %}
     <p>There are no products in the cart :(</p>
 {% endfor %}
 {% if total_sum %}
-    <p class="products_total_sum">{{ total_sum }}</p>
+    <p class="cart_total_sum">Total cart sum: {{ total_sum }} $</p>
 {% endif %}
-<form method="POST" class="clear_cart_form">
-    {% csrf_token %}
-    <input class="clear_cart_button" type="submit" value="Clear">
-</form>
 {% if products %}
-    <a href="{% url 'create_order' %}" class="create_order">Create order</a>
+    <div class="cart_buttons">
+        <form method="POST" class="clear_cart_form">
+            {% csrf_token %}
+            <input class="clear_cart_button" type="submit" value="Clear cart">
+        </form>
+        <a href="{% url 'create_order' %}" class="create_order">Create order</a>
+    </div>
 {% endif %}
 {% endblock %}
