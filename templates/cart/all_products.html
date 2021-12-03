@@ -32,8 +32,8 @@
         <form method="POST" class="clear_cart_form">
             {% csrf_token %}
             <input class="clear_cart_button" type="submit" value="Clear cart">
+            <a href="{% url 'create_order' %}" class="create_order">Create order</a>
         </form>
-        <a href="{% url 'create_order' %}" class="create_order">Create order</a>
     </div>
 {% endif %}
 {% endblock %}

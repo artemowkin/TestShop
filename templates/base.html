@@ -3,6 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="{% static 'css/base.css' %}" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,38 +28,40 @@
                     {% endif %}
                 </nav>
             </div>
-            <form action="{% url 'shop' %}" method="GET">
-                <select name="category" class="search_category_field">
-                    <option value="">Select category</option>
-                    {% for category in all_categories %}
-                        {% if request.GET.category == category.pk.urn|slice:"9:" %}
-                            <option selected value="{{ category.pk }}">{{ category.title }}</option>
+            <div class="search_form_container">
+                <form action="{% url 'shop' %}" method="GET">
+                    <select name="category" class="search_category_field">
+                        <option value="">Select category</option>
+                        {% for category in all_categories %}
+                            {% if request.GET.category == category.pk.urn|slice:"9:" %}
+                                <option selected value="{{ category.pk }}">{{ category.title }}</option>
+                            {% else %}
+                                <option value="{{ category.pk }}">{{ category.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="ord_by" class="search_ord_by_field">
+                        {% if request.GET.ord_by == 'price_down' %}
+                            <option selected value="price_down">Expensive at first</option>
+                            <option value="price_up">Cheaper at first</option>
                         {% else %}
-                            <option value="{{ category.pk }}">{{ category.title }}</option>
+                            <option selected value="price_down">Expensive at first</option>
+                            <option selected value="price_up">Cheaper at first</option>
                         {% endif %}
-                    {% endfor %}
-                </select>
-                <select name="ord_by" class="search_ord_by_field">
-                    {% if request.GET.ord_by == 'price_down' %}
-                        <option selected value="price_down">Expensive at first</option>
-                        <option value="price_up">Cheaper at first</option>
+                    </select>
+                    {% if request.GET.max_price %}
+                        <input type="number" name="max_price" class="search_max_price_field" placeholder="Maximum price value" value="{{ request.GET.max_price }}">
                     {% else %}
-                        <option selected value="price_down">Expensive at first</option>
-                        <option selected value="price_up">Cheaper at first</option>
+                        <input type="number" name="max_price" class="search_max_price_field" placeholder="Maximum price value">
                     {% endif %}
-                </select>
-                {% if request.GET.max_price %}
-                    <input type="number" name="max_price" class="search_max_price_field" placeholder="Maximum price value" value="{{ request.GET.max_price }}">
-                {% else %}
-                    <input type="number" name="max_price" class="search_max_price_field" placeholder="Maximum price value">
-                {% endif %}
-                {% if request.GET.query %}
-                    <input type="search" name="query" class="search_query_field" placeholder="Search query" value="{{ request.GET.query }}">
-                {% else %}
-                    <input type="search" name="query" class="search_query_field" placeholder="Search query">
-                {% endif %}
-                <input type="submit" value="Search" class="search_submit_button">
-            </form>
+                    {% if request.GET.query %}
+                        <input type="search" name="query" class="search_query_field" placeholder="Search query" value="{{ request.GET.query }}">
+                    {% else %}
+                        <input type="search" name="query" class="search_query_field" placeholder="Search query">
+                    {% endif %}
+                    <button type="submit" class="search_submit_button">Search</button>
+                </form>
+            </div>
         </header>
         <main>
             {% block content %}{% endblock %}
