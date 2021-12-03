@@ -301,3 +301,59 @@ main {
 .cart_buttons input:hover, .cart_buttons a:hover {
     background-color: rgba(0,0,0,.03);
 }
+
+.auth_form h2 {
+    font-size: 2rem;
+}
+
+.form_button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    border: 3px solid #FECE2F;
+    background-color: #FECE2F;
+    color: #403F37;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    transition: background-color .25s ease-in-out, color .25s ease-in-out;
+}
+
+.form_button:hover {
+    background-color: white;
+    color: #FECE2F;
+}
+
+.auth_form {
+    width: 100%;
+    max-width: 350px;
+}
+
+.auth_form input {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid rgba(0,0,0,.03);
+    background-color: rgba(0,0,0,.03);
+    font-size: 1rem;
+    padding: .5rem 1rem;
+    margin-top: .25rem;
+    border-radius: 1rem;
+    transition: background-color .25s ease-in-out;
+}
+
+.auth_form input:focus {
+    outline: 0;
+    background-color: white;
+}
+
+.auth_form button {
+    margin-top: .5rem;
+}
+
+.errorlist {
+    width: 100%;
+    background-color: rgba(255,255,0,.05);
+    color: #FECE2F;
+    border-radius: .5rem;
+    border: 2px solid #FECE2F;
+    padding: 1rem 2rem;
+}

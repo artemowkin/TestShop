@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from cart.services import Cart
 from .services import GetOrdersService, CreateOrderService, delete_order
 from .forms import CreateOrderForm
 
 
-class GetAllOrdersView(View):
+class GetAllOrdersView(LoginRequiredMixin, View):
+	login_url = 'account_login'
 
 	def get(self, request):
 		get_service = GetOrdersService(request.user)
@@ -18,7 +20,8 @@ class GetAllOrdersView(View):
 		})
 
 
-class CreateOrderView(View):
+class CreateOrderView(LoginRequiredMixin, View):
+	login_url = 'account_login'
 
 	def get(self, request):
 		create_order_form = CreateOrderForm()
@@ -53,7 +56,8 @@ class CreateOrderView(View):
 		return redirect(order.get_absolute_url())
 
 
-class ConcreteOrderView(View):
+class ConcreteOrderView(LoginRequiredMixin, View):
+	login_url = 'account_login'
 
 	def get(self, request, pk):
 		get_orders_service = GetOrdersService(request.user)
@@ -63,7 +67,8 @@ class ConcreteOrderView(View):
 		})
 
 
-class DeleteOrderView(View):
+class DeleteOrderView(LoginRequiredMixin, View):
+	login_url = 'account_login'
 
 	def post(self, request, pk):
 		get_orders_service = GetOrdersService(request.user)

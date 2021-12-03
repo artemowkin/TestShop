@@ -9,7 +9,7 @@ from products.services import GetProductsService
 
 
 class CartProductsView(LoginRequiredMixin, View):
-    raise_exception = True
+    login_url = 'account_login'
 
     def get(self, request):
         cart = Cart(request.session)
@@ -23,7 +23,7 @@ class CartProductsView(LoginRequiredMixin, View):
 
 
 class AddCartProductView(LoginRequiredMixin, View):
-    raise_exception = True
+    login_url = 'account_login'
 
     def post(self, request, product_pk):
         get_products_service = GetProductsService()
@@ -34,7 +34,7 @@ class AddCartProductView(LoginRequiredMixin, View):
 
 
 class RemoveCartProductView(LoginRequiredMixin, View):
-    raise_exception = True
+    login_url = 'account_login'
 
     def post(self, request, product_pk):
         get_products_service = GetProductsService()

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}TestShop | Log In{% endblock %}
+
+{% block content %}
+<form method="POST" action="" class="auth_form">
+	<h2>Sign Up</h2>
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p><button type="submit" class="form_button">Sign Up</button></p>
+</form>
+{% endblock %}

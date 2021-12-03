@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}TestShop | Log In{% endblock %}
+
+{% block content %}
+<form method="POST" action="" class="logout_form">
+	{% csrf_token %}
+	<h2>Log Out</h2>
+	<p>Are you sure you want to log out?</p>
+	<input type="submit" value="Log Out" class="form_button">
+</form>
+{% endblock %}
