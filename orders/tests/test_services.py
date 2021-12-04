@@ -95,29 +95,35 @@ class CreateOrderServiceTests(TestCase):
 
     def test_create_with_logged_in_user(self):
         session = self.client.session
-        session['cart'] = {
-            'products': [str(self.product.pk)],
-            'total_sum': float(self.product.price),
-        }
-        session.save()
+        self._add_product_to_cart(session)
         service = CreateOrderService(self.user, session)
         order = service.create(self.order_data)
         self.assertIsInstance(order.pk, int)
         self.assertEqual(Order.objects.count(), 1)
 
+    def _add_product_to_cart(self, session):
+        session['cart'] = {
+            'products': [str(self.product.pk)],
+            'total_sum': float(self.product.price),
+        }
+        session.save()
+
     def test_create_without_products_in_cart(self):
         session = self.client.session
-        service = CreateOrderService(self.user, session)
-        with self.assertRaises(PermissionDenied):
+        with self.assertRaises(Http404):
+            service = CreateOrderService(self.user, session)
             order = service.create(self.order_data)
 
     def test_create_with_not_logged_in_user(self):
+        session = self.client.session
         with self.assertRaises(PermissionDenied):
-            service = CreateOrderService(AnonymousUser(), self.client.session)
+            service = CreateOrderService(AnonymousUser(), session)
 
     def test_create_with_incorrect_phone_number(self):
         self.order_data['phone'] = '123'
-        service = CreateOrderService(self.user, self.client.session)
+        session = self.client.session
+        self._add_product_to_cart(session)
+        service = CreateOrderService(self.user, session)
         with self.assertRaises(ValidationError):
             service.create(self.order_data)
 

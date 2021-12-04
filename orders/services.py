@@ -39,13 +39,13 @@ class CreateOrderService:
         self._cart = Cart(session)
         self._model = Order
         if not self._user.is_authenticated: raise PermissionDenied
+        if self._cart.is_empty(): raise Http404
 
     def create(self, order_data: dict) -> Order:
         """Create a new order using `order_data`"""
         address = self._create_address(order_data)
         receiver = self._create_receiver(order_data)
         cart_products = self._cart.get_products()
-        self._check_is_cart_not_empty(cart_products)
         order = self._model.objects.create(
             user=self._user, total_price=Decimal(cart_products['total_sum']),
             address=address, receiver=receiver
@@ -53,11 +53,6 @@ class CreateOrderService:
         order.products.set(cart_products['products'])
         order.save()
         return order
-
-    def _check_is_cart_not_empty(self, cart_products: dict) -> None:
-        """Check is anyone product in `cart_products`"""
-        if cart_products['products'].count() == 0:
-            raise PermissionDenied
 
     def _create_address(self, order_data: dict) -> Address:
         """Create an address instance"""
