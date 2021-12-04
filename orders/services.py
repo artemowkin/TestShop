@@ -52,10 +52,17 @@ class CreateOrderService:
         )
         order.products.set(cart_products['products'])
         order.save()
+        self._cart.clear()
         return order
 
     def _create_address(self, order_data: dict) -> Address:
         """Create an address instance"""
+        addresses = Address.objects.filter(
+            city=order_data['city'], street=order_data['street'],
+            house=order_data['house'], apartment=order_data['apartment'],
+            postal_code=order_data['postal_code']
+        )
+        if addresses: return addresses[0]
         address = Address.objects.create(
             city=order_data['city'], street=order_data['street'],
             house=order_data['house'], apartment=order_data['apartment'],
@@ -65,11 +72,11 @@ class CreateOrderService:
 
     def _create_receiver(self, order_data: dict) -> Receiver:
         """Create a receiver instance"""
-        receiver = Receiver.objects.filter(
+        receivers = Receiver.objects.filter(
             first_name=order_data['first_name'],
             last_name=order_data['last_name'], phone=order_data['phone']
         )
-        if receiver: return receiver[0]
+        if receivers: return receivers[0]
         receiver = Receiver(
             first_name=order_data['first_name'],
             last_name=order_data['last_name'], phone=order_data['phone']
