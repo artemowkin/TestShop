@@ -55,3 +55,10 @@ class Cart:
             self._session['cart'] = session_cart
             self._session.modified = True
 
+    def is_empty(self) -> bool:
+        """Check is cart empty"""
+        response = self.get_products()
+        if response['products'].count() == 0:
+            return True
+
+        return False

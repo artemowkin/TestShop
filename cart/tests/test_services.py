@@ -49,3 +49,8 @@ class CartTests(TestCase):
 
         self.assertEqual(len(cart_products['products']), 0)
         self.assertEqual(cart_products['total_sum'], 0.0)
+
+    def test_is_empty(self):
+        self.assertTrue(self.cart.is_empty())
+        self.cart.add_product(self.product)
+        self.assertFalse(self.cart.is_empty())

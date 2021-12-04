@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views import View
 from django.core.exceptions import ValidationError
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 
 from cart.services import Cart
 from .services import GetOrdersService, CreateOrderService, delete_order
@@ -25,6 +26,8 @@ class CreateOrderView(LoginRequiredMixin, View):
 
 	def get(self, request):
 		create_order_form = CreateOrderForm()
+		cart = Cart(request.session)
+		if cart.is_empty(): raise Http404
 		return render(request, 'orders/create_order.html', {
 			'form': create_order_form
 		})
