@@ -22,7 +22,7 @@ class AddProductToCartViewTests(TestCase):
         response = self.client.post(reverse(
             'add_product_to_cart', args=[str(self.product.pk)]
         ))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
 
     def test_post_with_logged_in_user(self):
         User.objects.create_user(username='testuser', password='testpass')

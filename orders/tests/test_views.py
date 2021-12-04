@@ -32,7 +32,7 @@ class CreateOrderViewTests(TestCase):
 
     def test_get(self):
         response = self.client.get(reverse('create_order'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
     def test_post(self):
         response = self.client.post(reverse('create_order'))

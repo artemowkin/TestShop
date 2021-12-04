@@ -38,7 +38,7 @@ class ConcreteProductTests(FunctionalTest):
         self.browser.get(self.live_server_url + '/auth/login/')
         login = self.browser.find_element('css selector', '#id_login')
         password = self.browser.find_element('css selector', '#id_password')
-        submit = self.browser.find_element('css selector', '.primaryAction')
+        submit = self.browser.find_element('css selector', 'button.form_button')
         login.send_keys('testuser@gmail.com')
         password.send_keys('testpass')
         submit.click()

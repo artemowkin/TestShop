@@ -44,7 +44,7 @@ class OrdersTests(FunctionalTest):
         self.browser.get(self.live_server_url + '/auth/login/')
         login = self.browser.find_element('css selector', '#id_login')
         password = self.browser.find_element('css selector', '#id_password')
-        submit = self.browser.find_element('css selector', '.primaryAction')
+        submit = self.browser.find_element('css selector', 'button.form_button')
         login.send_keys('testuser@gmail.com')
         password.send_keys('testpass')
         submit.click()
@@ -66,7 +66,7 @@ class OrdersTests(FunctionalTest):
         order_id = orders[0].find_element(
             'css selector', '.order_id'
         ).text
-        self.assertEqual(int(order_id), self.order.pk)
+        self.assertEqual(order_id, f"Order ID: #{self.order.pk}")
 
     def test_create_a_new_order(self):
         self._add_product_to_cart()
