@@ -24,6 +24,9 @@ class Receiver(models.Model):
     class Meta:
         db_table = 'receivers'
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.phone})"
+
 
 class Address(models.Model):
     """Model of order address"""
@@ -36,6 +39,12 @@ class Address(models.Model):
     class Meta:
         db_table = 'addresses'
         verbose_name_plural = 'addresses'
+
+    def __str__(self):
+        return (
+            f"{self.city}, {self.street}, {self.house}, {self.apartment}, "
+            f"({self.postal_code})"
+        )
 
 
 class Order(models.Model):
@@ -53,9 +62,11 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=15, decimal_places=2)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     receiver = models.ForeignKey(Receiver, on_delete=models.CASCADE)
+    pub_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'orders'
+        ordering = ('-pub_datetime',)
 
     def get_absolute_url(self) -> str:
         return reverse('concrete_order', args=[self.pk])
