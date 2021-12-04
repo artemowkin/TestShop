@@ -230,14 +230,14 @@ main {
     background-color: rgba(0,0,0,.03);
 }
 
-.cart_product img {
+.cart_product img, .order_product img {
     width: 100%;
     max-width: 80px;
     height: 100px;
     object-fit: contain;
 }
 
-.cart_product_left {
+.cart_product_left, .order_product_left {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -391,4 +391,53 @@ main {
 
 .order:hover .order_id {
     color: #FECE2F;
+}
+
+.concrete_order_id {
+    font-size: 2rem;
+}
+
+.order_product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    transition: background-color .25s ease-in-out;
+}
+
+.order_product:hover {
+    background-color: rgba(0,0,0,.03);
+}
+
+.order_product:hover .order_product_title {
+    color: #FECE2F;
+}
+
+.order_product_left {
+    width: 50%;
+}
+
+.order_product_title {
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    transition: color .25s ease-in-out;
+}
+
+.delete_order {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #403F37;
+    background: white;
+    border: 0;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    transition: background-color .25s ease-in-out;
+}
+
+.delete_order:hover {
+    background-color: rgba(0,0,0,.03);
 }

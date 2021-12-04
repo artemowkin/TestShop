@@ -65,6 +65,11 @@ class CreateOrderService:
 
     def _create_receiver(self, order_data: dict) -> Receiver:
         """Create a receiver instance"""
+        receiver = Receiver.objects.filter(
+            first_name=order_data['first_name'],
+            last_name=order_data['last_name'], phone=order_data['phone']
+        )
+        if receiver: return receiver[0]
         receiver = Receiver(
             first_name=order_data['first_name'],
             last_name=order_data['last_name'], phone=order_data['phone']

@@ -3,12 +3,26 @@
 {% block title %}TestShop | Order (#{{ order.pk }}){% endblock %}
 
 {% block content %}
-<section class="order">
-    <h2 class="order_id">{{ order.id }}</h2>
+<section class="concrete_order">
+    <h2 class="concrete_order_id">Order ID: #{{ order.id }}</h2>
+    <p class="concrete_order_status">Status: {{ order.status }}</p>
+    {% for product in order.products.all %}
+        <a href="{{ product.get_absolute_url }}" class="order_product">
+            <div class="order_product_left">
+                {% for image in product.images.all %}
+                    {% if forloop.first %}
+                        <img src="{{ image.image.url }}" alt="product_preview">
+                    {% endif %}
+                {% endfor %}
+                <h2 class="order_product_title">{{ product.title }}</h2>
+            </div>
+            <p class="order_product_price">{{ product.price }} $</p>
+        </a>
+    {% endfor %}
     {% if order.status != 'sent' %}
         <form action="{% url 'delete_order' order.pk %}" method="POST">
             {% csrf_token %}
-            <input class="delete_order" type="submit" value="Delete">
+            <input class="delete_order" type="submit" value="Delete order">
         </form>
     {% endif %}
 </section>
