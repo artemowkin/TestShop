@@ -15,16 +15,16 @@
 </section>
 <section class="products">
     {% for product in products %}
-        <section class="product">
+        <a href="{{ product.get_absolute_url }}" class="product">
             {% for image in product.images.all %}
                 {% if forloop.first %}
                     <img src="{{ image.image.url }}" alt="product_preview">
                 {% endif %}
             {% endfor %}
-            <h2 class="product_title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h2>
+            <h2 class="product_title">{{ product.title }}</h2>
             <p class="product_price">{{ product.price }} $</p>
             <p class="product_short_description">{{ product.short_description }}</p>
-        </section>
+        </a>
     {% empty %}
         <p>There are no products in the shop :(</p>
     {% endfor %}
