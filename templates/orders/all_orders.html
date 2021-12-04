@@ -4,9 +4,13 @@
 
 {% block content %}
 {% for order in orders %}
-    <section class="order">
-        <h2 class="order_id">{{ order.id }}</h2>
-    </section>
+    <a href="{{ order.get_absolute_url }}" class="order">
+        <div>
+            <h3 class="order_id">Order ID: #{{ order.id }}</h2>
+            <p class="order_status">Status: {{ order.status }}</p>
+        </div>
+        <p class="order_total_price">Total price: {{ order.total_price }} $</p>
+    </a>
 {% empty %}
     <p>There are no orders :(</p>
 {% endfor %}

@@ -58,4 +58,4 @@ class Order(models.Model):
         db_table = 'orders'
 
     def get_absolute_url(self) -> str:
-        return reverse('homepage')
+        return reverse('concrete_order', args=[self.pk])

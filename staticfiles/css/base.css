@@ -150,6 +150,11 @@ main {
     max-width: 500px;
 }
 
+.products_title {
+    font-size: 2rem;
+    text-align: center;
+}
+
 .products {
     display: grid;
     grid-template: repeat(1, 1fr) / repeat(auto-fill, minmax(330px, 1fr));
@@ -362,4 +367,28 @@ main {
     border-radius: .5rem;
     border: 2px solid #FECE2F;
     padding: 1rem 2rem;
+}
+
+.order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    transition: background-color .25s ease-in-out;
+}
+
+.order_id {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    transition: color .25s ease-in-out;
+}
+
+.order:hover {
+    background-color: rgba(0,0,0,.03);
+}
+
+.order:hover .order_id {
+    color: #FECE2F;
 }

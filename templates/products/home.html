@@ -13,6 +13,7 @@
         <img src="{% static 'images/taxi-868.png' %}" alt="illustration">
     </div>
 </section>
+<h2 class="products_title">Last products</h2>
 <section class="products">
     {% for product in products %}
         <a href="{{ product.get_absolute_url }}" class="product">
