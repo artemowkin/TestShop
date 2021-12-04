@@ -93,6 +93,6 @@ def delete_order(user: User, order: Order) -> bool:
     """
     if not user.is_authenticated: raise PermissionDenied
     if user != order.user: raise Http404
-    if order.status == 'sent': return False
+    if order.status in ('sent', 'received'): return False
     order.delete()
     return True

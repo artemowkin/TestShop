@@ -165,6 +165,13 @@ class DeleteOrderServiceTests(TestCase):
         self.assertFalse(deleted)
         self.assertEqual(Order.objects.count(), 1)
 
+    def test_delete_with_received_status(self):
+        self.order.status = 'received'
+        self.order.save()
+        deleted = delete_order(self.user, self.order)
+        self.assertFalse(deleted)
+        self.assertEqual(Order.objects.count(), 1)
+
     def test_delete_with_not_authenticated_user(self):
         with self.assertRaises(PermissionDenied):
             delete_order(AnonymousUser(), self.order)

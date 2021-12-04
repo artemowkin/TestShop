@@ -19,7 +19,7 @@
             <p class="order_product_price">{{ product.price }} $</p>
         </a>
     {% endfor %}
-    {% if order.status != 'sent' %}
+    {% if order.status != 'sent' and order.status != 'received' %}
         <form action="{% url 'delete_order' order.pk %}" method="POST">
             {% csrf_token %}
             <input class="delete_order" type="submit" value="Delete order">

@@ -214,3 +214,13 @@ class OrdersTests(FunctionalTest):
             'css selector', '.delete_order'
         )
         self.assertEqual(len(delete_order_buttons), 0)
+
+    def test_delete_a_concrete_order_with_received_status(self):
+        self.order.status = 'received'
+        self.order.save()
+        self._add_product_to_cart()
+        self.browser.get(self.live_server_url + f"/orders/{self.order.pk}/")
+        delete_order_buttons = self.browser.find_elements(
+            'css selector', '.delete_order'
+        )
+        self.assertEqual(len(delete_order_buttons), 0)
