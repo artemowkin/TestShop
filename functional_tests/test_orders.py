@@ -124,7 +124,7 @@ class OrdersTests(FunctionalTest):
         )
         self.assertEqual(len(orders), 2)
 
-    def test_create_a_new_order_with_existing_number(self):
+    def test_create_a_new_order_with_existing_number_and_another_data(self):
         self._add_product_to_cart()
         self.browser.get(self.live_server_url + '/cart/')
         create_order_link = self.browser.find_element(
@@ -143,8 +143,8 @@ class OrdersTests(FunctionalTest):
         phone = self.browser.find_element(
             'css selector', '#id_phone'
         )
-        first_name.send_keys('Ivan')
-        last_name.send_keys('Ivanov')
+        first_name.send_keys('Petr')
+        last_name.send_keys('Petrov')
         phone.send_keys('88005553535')
 
         # Address information
@@ -187,9 +187,9 @@ class OrdersTests(FunctionalTest):
         self._add_product_to_cart()
         self.browser.get(self.live_server_url + f"/orders/{self.order.pk}/")
         order_id = self.browser.find_element(
-            'css selector', '.order_id'
+            'css selector', '.concrete_order_id'
         ).text
-        self.assertEqual(order_id, str(self.order.pk))
+        self.assertEqual(order_id, f"Order ID: #{self.order.pk}")
 
 
     def test_delete_a_concrete_order(self):
