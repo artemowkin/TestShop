@@ -37,7 +37,7 @@
             <p class="concrete_product_rating"><strong>Rating: </strong>{{ rating }}</p>
             {% if not product|is_in_cart:request %}
                 <button type="button" class="product_add_to_cart" onclick="addToCart();">Add to cart</button>
-                <p class="product_added_in_cart">Product added in cart</p>
+                <p class="product_added_in_cart">Product added to cart</p>
             {% endif %}
         </div>
     </section>
