@@ -1,23 +1,37 @@
 {% extends 'base.html' %}
+{% load cart_extras %}
 
 {% block title %}TestShop | {{ product.title }}{% endblock %}
 
 {% block content %}
-<article class="product">
-    <script defer>
-        function addToCart() {
-            fetch('/cart/add/{{ product.pk }}/', {
-                method: 'POST',
-                headers: {'X-CSRFToken': '{{ csrf_token }}'}
-            });
-        }
-    </script>
-    <button type="button" class="product_add_to_cart" onclick="addToCart();">Add to cart</button>
-    <h1 class="product_title">{{ product.title }}</h1>
-    <p class="product_price">{{ product.price }}</p>
-    <p class="product_short_description">{{ product.short_description }}</p>
-    <p class="product_description">{{ product.description }}</p>
-    <p class="product_rating">Rating: {{ rating }}</p>
+<script defer>
+    function addToCart() {
+        fetch('/cart/add/{{ product.pk }}/', {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}
+        });
+    }
+</script>
+<article class="concrete_product">
+    <section class="concrete_product_info">
+        <div class="concrete_product_images">
+            {% for image in product.images.all %}
+                {% if forloop.first %}
+                    <img src="{{ image.image.url }}" alt="product image">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="concrete_product_right">
+            <h1 class="concrete_product_title">{{ product.title }}</h1>
+            <p class="concrete_product_price">{{ product.price }} $</p>
+            <p class="concrete_product_short_description"><strong>Short description: </strong>{{ product.short_description }}</p>
+            <p class="concrete_product_description"><strong>Description: </strong>{{ product.description }}</p>
+            <p class="concrete_product_rating"><strong>Rating: </strong>{{ rating }}</p>
+            {% if not product|is_in_cart:request %}
+                <button type="button" class="product_add_to_cart" onclick="addToCart();">Add to cart</button>
+            {% endif %}
+        </div>
+    </section>
     <aside class="similar_products">
         {% for similar_product in similar_products %}
             <section class="similar_product">

@@ -438,3 +438,29 @@ main {
 .delete_order:hover {
     background-color: rgba(0,0,0,.03);
 }
+
+.concrete_product_info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.concrete_product_images img {
+    width: 100%;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+.concrete_product_right {
+    width: 100%;
+    max-width: 500px;
+}
+
+.concrete_product_title {
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+.concrete_product_price {
+    font-size: 1.25rem;
+}
