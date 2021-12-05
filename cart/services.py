@@ -59,3 +59,7 @@ class Cart:
         """Check is cart empty"""
         cart_products_count = len(self._session['cart']['products'])
         return cart_products_count == 0
+
+    def has_product(self, product: Product) -> bool:
+        """Check has cart the product"""
+        return str(product.pk) in self._session['cart']['products']

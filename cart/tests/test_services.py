@@ -54,3 +54,10 @@ class CartTests(TestCase):
         self.assertTrue(self.cart.is_empty())
         self.cart.add_product(self.product)
         self.assertFalse(self.cart.is_empty())
+
+    def test_has_product_with_empty_cart(self):
+        self.assertFalse(self.cart.has_product(self.product))
+
+    def test_has_product_with_product_in_cart(self):
+        self.cart.add_product(self.product)
+        self.assertTrue(self.cart.has_product(self.product))
