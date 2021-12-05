@@ -72,6 +72,7 @@ class CreateOrderService:
 
     def _create_receiver(self, order_data: dict) -> Receiver:
         """Create a receiver instance"""
+        self._replace_phone_number(order_data)
         receivers = Receiver.objects.filter(
             first_name=order_data['first_name'],
             last_name=order_data['last_name'], phone=order_data['phone']
@@ -84,6 +85,13 @@ class CreateOrderService:
         receiver.full_clean()
         receiver.save()
         return receiver
+
+    def _replace_phone_number(self, order_data: dict) -> None:
+        """Replace all symbols in phone number like (, ), +, etc."""
+        phone = order_data['phone']
+        phone = phone.replace('+7', '8').replace('(', '').replace(
+            ')', '').replace('-', '').replace(' ', '')
+        order_data['phone'] = phone
 
 
 def delete_order(user: User, order: Order) -> bool:
