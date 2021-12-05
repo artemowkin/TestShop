@@ -442,7 +442,7 @@ main {
 .concrete_product_info {
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .concrete_product_images img {
@@ -464,4 +464,24 @@ main {
 
 .concrete_product_price {
     font-size: 1.25rem;
+}
+
+.product_add_to_cart {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color .25s ease-in-out;
+}
+
+.product_add_to_cart:hover {
+    background-color: rgba(0,0,0,.03);
+}
+
+.product_added_in_cart {
+    color: #FECE2F;
+    display: none;
 }

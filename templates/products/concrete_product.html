@@ -10,6 +10,14 @@
             method: 'POST',
             headers: {'X-CSRFToken': '{{ csrf_token }}'}
         });
+        let product_added_in_cart_message = document.querySelector(
+            '.product_added_in_cart'
+        );
+        let product_add_to_cart_button = document.querySelector(
+            '.product_add_to_cart'
+        );
+        product_add_to_cart_button.style.display = 'none';
+        product_added_in_cart_message.style.display = 'block';
     }
 </script>
 <article class="concrete_product">
@@ -29,6 +37,7 @@
             <p class="concrete_product_rating"><strong>Rating: </strong>{{ rating }}</p>
             {% if not product|is_in_cart:request %}
                 <button type="button" class="product_add_to_cart" onclick="addToCart();">Add to cart</button>
+                <p class="product_added_in_cart">Product added in cart</p>
             {% endif %}
         </div>
     </section>
