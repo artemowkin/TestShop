@@ -447,7 +447,8 @@ main {
 
 .concrete_product_images img {
     width: 100%;
-    max-width: 200px;
+    max-width: 400px;
+    height: 400px;
     object-fit: contain;
 }
 
