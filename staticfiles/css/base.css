@@ -667,4 +667,19 @@ main {
         padding: .25rem;
         gap: 2.75rem;
     }
+
+    .order {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 1rem 0;
+    }
+
+    .order h3 {
+        margin-top: 0
+    }
+
+    .order_total_price {
+        margin: 0;
+    }
 }
