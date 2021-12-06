@@ -554,12 +554,46 @@ main {
         margin-bottom: 6rem;
     }
 
+    .header_top {
+        justify-content: center;
+    }
+
+    .header_top h3 {
+        font-size: 2rem;
+        margin: 2rem 0 0;
+    }
+
     .preview {
         margin-top: 0;
     }
 
     .preview_text h3 {
         margin-top: 0;
+        text-align: center;
+    }
+
+    .preview_text p {
+        text-align: justify;
+    }
+
+    .concrete_product_right p {
+        text-align: justify;
+    }
+
+    .concrete_product_right p.concrete_product_price {
+        text-align: center;
+    }
+
+    .similar_product:hover {
+        background-color: white;
+    }
+
+    .similar_product:hover h3 {
+        color: #403F37;
+    }
+
+    .similar_products_title {
+        text-align: center;
     }
 
     header form {
@@ -601,6 +635,14 @@ main {
 
     .products {
         margin-top: 0;
+    }
+
+    .product:hover {
+        background-color: white;
+    }
+
+    .product:hover .product_title {
+        color: #403F37;
     }
 
     .concrete_product_info {
