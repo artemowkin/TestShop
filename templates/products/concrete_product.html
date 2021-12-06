@@ -41,7 +41,9 @@
             {% endif %}
         </div>
     </section>
-    <h2 class="similar_products_title">Similar products</h2>
+    {% if similar_products %}
+        <h2 class="similar_products_title">Similar products</h2>
+    {% endif %}
     <aside class="similar_products">
         {% for similar_product in similar_products %}
             <a href="{{ similar_product.get_absolute_url }}" class="similar_product">

@@ -82,6 +82,7 @@ header form select {
 
 .search_category_field {
     border-radius: .5rem 0 0 .5rem;
+    margin: 0;
 }
 
 header form input {
