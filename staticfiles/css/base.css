@@ -675,6 +675,14 @@ main {
         padding: 1rem 0;
     }
 
+    .order:hover {
+        background-color: white;
+    }
+
+    .order:hover .order_id {
+        color: #403F37;
+    }
+
     .order h3 {
         margin-top: 0
     }
