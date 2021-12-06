@@ -27,6 +27,29 @@
                         <a href="{% url 'account_login' %}" class="header_link">Log In</a>
                     {% endif %}
                 </nav>
+                <nav class="mobile_header_navigation">
+                    <a href="{% url 'homepage' %}" class="header_link">
+                        <img src="{% static 'images/free-icon-home-button-60817.png' %}">
+                    </a>
+                    <a href="{% url 'shop' %}" class="header_link">
+                        <img src="{% static 'images/free-icon-searching-magnifying-glass-61088.png' %}">
+                    </a>
+                    <a href="{% url 'cart_all_products' %}" class="header_link">
+                        <img src="{% static 'images/free-icon-shopping-cart-60992.png' %}">
+                    </a>
+                    <a href="{% url 'all_orders' %}" class="header_link">
+                        <img src="{% static 'images/free-icon-send-button-60525.png' %}">
+                    </a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'account_logout' %}" class="header_link">
+                            <img src="{% static 'images/free-icon-round-account-button-with-user-inside-61205.png' %}">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="header_link">
+                            <img src="{% static 'images/free-icon-round-account-button-with-user-inside-61205.png' %}">
+                        </a>
+                    {% endif %}
+                </nav>
             </div>
             <div class="search_form_container">
                 <form action="{% url 'shop' %}" method="GET">

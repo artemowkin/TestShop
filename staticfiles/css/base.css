@@ -36,6 +36,10 @@ header {
     padding: 0.5rem;
 }
 
+.mobile_header_navigation {
+    display: none;
+}
+
 .header_top {
     width: 100%;
     max-width: 1200px;
@@ -547,7 +551,7 @@ main {
 
     main {
         padding: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 6rem;
     }
 
     .preview {
@@ -564,6 +568,29 @@ main {
 
     header form input {
         width: 210px;
+    }
+
+    .mobile_header_navigation {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        background-color: white;
+        justify-content: space-around;
+        align-items: center;
+        padding: .8rem 0;
+    }
+
+    .mobile_header_navigation a {
+        padding: .8rem .8rem .3rem .8rem;
+        background-color: rgba(0,0,0,.03);
+        border-radius: 1rem;
+    }
+
+    .mobile_header_navigation a img {
+        width: 20px;
+        object-fit: contain;
     }
 
     .more_link a {
