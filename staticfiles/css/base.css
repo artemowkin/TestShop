@@ -485,3 +485,47 @@ main {
     color: #FECE2F;
     display: none;
 }
+
+.similar_products_title {
+    font-size: 1.85rem;
+    margin: 2rem 0;
+}
+
+.similar_products {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+    gap: 3rem;
+    padding: 0 3rem;
+}
+
+.similar_product {
+    padding: 1rem;
+    border-radius: 1rem;
+    transition: background-color .25s ease-in-out;
+}
+
+.similar_product:hover {
+    background-color: rgba(0,0,0,.03);
+}
+
+.similar_product:hover h3 {
+    color: #FECE2F;
+}
+
+.similar_product h3 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 1rem 0 0 0;
+}
+
+.similar_product img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.similar_product_price {
+    text-align: center;
+}

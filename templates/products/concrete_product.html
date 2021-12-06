@@ -41,11 +41,18 @@
             {% endif %}
         </div>
     </section>
+    <h2 class="similar_products_title">Similar products</h2>
     <aside class="similar_products">
         {% for similar_product in similar_products %}
-            <section class="similar_product">
-                <h2 class="similar_product_title">{{ similar_product.title }}</h2>
-            </section>
+            <a href="{{ similar_product.get_absolute_url }}" class="similar_product">
+                {% for image in similar_product.images.all %}
+                    {% if forloop.first %}
+                        <img src="{{ image.image.url }}" alt="similar product image">
+                    {% endif %}
+                {% endfor %}
+                <h3 class="similar_product_title">{{ similar_product.title }}</h3>
+                <p class="similar_product_price">{{ similar_product.price }} $</p>
+            </a>
         {% endfor %}
     </aside>
     <aside class="reviews">
