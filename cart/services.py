@@ -41,10 +41,11 @@ class Cart:
     def clear(self) -> None:
         """Clear products from cart"""
         session_cart = self._session['cart']
-        session_cart['products'].clear()
-        session_cart['total_sum'] = 0.0
-        self._session['cart'] = session_cart
-        self._session.modified = True
+        if len(session_cart['products']) != 0:
+            session_cart['products'].clear()
+            session_cart['total_sum'] = 0.0
+            self._session['cart'] = session_cart
+            self._session.modified = True
 
     def remove_product(self, product : Product) -> None:
         """Remove product from cart"""
