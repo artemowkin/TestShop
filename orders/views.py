@@ -50,7 +50,7 @@ class CreateOrderView(LoginRequiredMixin, View):
 		)
 		try:
 			order = create_order_service.create(create_order_form.cleaned_data)
-		except ValidationError as e:
+		except ValidationError:
 			for field in e.message_dict:
 				create_order_form.add_error(
 					None, 'Receiver with this phone number already exists'
