@@ -57,13 +57,7 @@ class CreateOrderService:
 
     def _create_address(self, order_data: dict) -> Address:
         """Create an address instance"""
-        addresses = Address.objects.filter(
-            city=order_data['city'], street=order_data['street'],
-            house=order_data['house'], apartment=order_data['apartment'],
-            postal_code=order_data['postal_code']
-        )
-        if addresses: return addresses[0]
-        address = Address.objects.create(
+        address, created = Address.objects.get_or_create(
             city=order_data['city'], street=order_data['street'],
             house=order_data['house'], apartment=order_data['apartment'],
             postal_code=order_data['postal_code']
