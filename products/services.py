@@ -80,9 +80,9 @@ class ProductsSearchService:
         ordering_field = self._ordering_fields.get(ordering_type)
         if not ordering_field: return queryset
         if not queryset:
-            return self._model.objects.order_by(ordering_field)
+            return self._model.objects.order_by(ordering_field, '-pub_datetime')
 
-        return queryset.order_by(ordering_field)
+        return queryset.order_by(ordering_field, '-pub_datetime')
 
     def category(self, category_pk: Union[str,UUID],
             queryset: Optional[QuerySet]) -> QuerySet:

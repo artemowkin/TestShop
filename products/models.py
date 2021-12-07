@@ -35,7 +35,7 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'products'
-        ordering = ('-pub_datetime', 'title')
+        ordering = ('price', '-pub_datetime', 'title')
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
