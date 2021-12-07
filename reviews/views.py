@@ -21,7 +21,7 @@ class AddProductReviewView(View):
 
     def _check_is_request_ajax(self):
         request_content_type = self.request.headers.get('Content-Type')
-        if 'application/json' != request_content_type:
+        if request_content_type != 'application/json':
             raise Http404
 
     def _serialize_review(self, review):
