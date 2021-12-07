@@ -281,12 +281,17 @@ main {
     background-color: #FECE2F;
     color: #403F37;
     border: 3px solid #FECE2F;
-    padding: .5rem 1rem;
+    padding: .6rem .8rem .45rem;
     border-radius: 1rem;
     font-size: 1rem;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     transition: background-color .25s ease-in-out, color .25s ease-in-out;
+}
+
+.cart_remove_product img {
+    width: 15px;
+    height: 15px;
 }
 
 .cart_remove_product:hover {
@@ -693,5 +698,46 @@ main {
 
     .order_total_price {
         margin: 0;
+    }
+
+    .cart_product {
+        padding: 0;
+        margin-bottom: 2rem
+    }
+
+    .cart_product_title, .cart_product_price {
+        margin-left: .5rem;
+    }
+
+    .cart_product_title {
+        max-width: 150px;
+    }
+
+    .cart_remove_product {
+        padding: .75rem .75rem .35rem;
+    }
+
+    .cart_buttons {
+        display: block;
+    }
+
+    .clear_cart_form {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .cart_buttons input, .cart_buttons a {
+        background-color: rgba(0,0,0,.03);
+    }
+
+    .clear_cart_button:hover, .create_order:hover {}
+
+    .cart_product:hover {
+        background-color: white;
+    }
+
+    .cart_product:hover .cart_product_title {
+        color: #403F37;
     }
 }

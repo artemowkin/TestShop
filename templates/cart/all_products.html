@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}TestShop | Cart{% endblock %}
 
@@ -18,7 +19,9 @@
         </div>
         <form method="POST" action="{% url 'remove_cart_product' product.pk %}">
             {% csrf_token %}
-            <button type="submit" class="cart_remove_product">Remove</button>
+            <button type="submit" class="cart_remove_product">
+                <img src="{% static 'images/free-icon-close-button-61155.png' %}" alt="Remove">
+            </button>
         </form>
     </a>
 {% empty %}
