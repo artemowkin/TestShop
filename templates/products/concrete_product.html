@@ -58,6 +58,17 @@
         {% endfor %}
     </aside>
     <aside class="reviews">
+        <form class="create_review_form">
+            <p>Rating: <select class="create_review_rating">
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select></p>
+            <p class="create_review_text_field">Review: <textarea class="create_review_text"></textarea></p>
+            <p><input type="submit" value="Create review" class="form_button create_review_button"></p>
+        </form>
         {% for review in reviews %}
             <section class="review">
                 <p class="review_user">{{ review.user }}</p>
