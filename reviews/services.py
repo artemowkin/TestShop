@@ -23,14 +23,13 @@ class CreateReviewService:
         self._get_products_service = GetProductsService()
         self._model = Review
 
-    def create(self, product_pk: str, user_pk: id,
+    def create(self, product_pk: str, user: User,
             rating: int, text: str) -> Review:
         """
         Create a new review for product from user (if authenticated)
         with rating and text
         """
         product = self._get_products_service.get_concrete(product_pk)
-        user = get_object_or_404(User, pk=user_pk)
         review = self._model(
             product=product, user=user, rating=rating, text=text
         )
