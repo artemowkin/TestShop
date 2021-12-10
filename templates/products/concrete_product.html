@@ -57,52 +57,56 @@
             </a>
         {% endfor %}
     </aside>
-    <h2>Reviews:</h2>
-    <aside class="reviews">
-        {% for review in reviews %}
-            <section class="review">
-                <p class="review_user"><b>{{ review.user }}</b></p>
-                <p class="review_rating"><small>Rating: {{ review.rating }}</small></p>
-                <p class="review_text">{{ review.text }}</p>
-            </section>
-        {% endfor %}
-    </aside>
-    <script>
-        async function createOrder() {
-            let rating = document.querySelector('.create_review_rating');
-            let review_text = document.querySelector('.create_review_text');
-            let response = await fetch('/reviews/add/{{ product.pk }}/', {
-                method: 'POST',
-                headers: {'X-CSRFToken': '{{ csrf_token }}'},
-                body: JSON.stringify({
-                    'rating': rating.value,
-                    'text': review_text.value
-                })
-            });
-            let json_response = await response.json();
-            await createOrderItem(json_response);
-            rating.value = '5';
-            review_text.value = '';
-        };
+    {% if reviews %}
+        <h2>Reviews:</h2>
+        <aside class="reviews">
+            {% for review in reviews %}
+                <section class="review">
+                    <p class="review_user"><b>{{ review.user }}</b></p>
+                    <p class="review_rating"><small>Rating: {{ review.rating }}</small></p>
+                    <p class="review_text">{{ review.text }}</p>
+                </section>
+            {% endfor %}
+        </aside>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <script>
+            async function createOrder() {
+                let rating = document.querySelector('.create_review_rating');
+                let review_text = document.querySelector('.create_review_text');
+                let response = await fetch('/reviews/add/{{ product.pk }}/', {
+                    method: 'POST',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    body: JSON.stringify({
+                        'rating': rating.value,
+                        'text': review_text.value
+                    })
+                });
+                let json_response = await response.json();
+                await createOrderItem(json_response);
+                rating.value = '5';
+                review_text.value = '';
+            };
 
-        async function createOrderItem(data) {
-            let reviews = document.querySelector('.reviews');
-            let review = document.createElement('section');
-            review.className = 'review';
-            review.innerHTML = `<p class="review_user"><strong>${data['user']}</strong></p><p class="review_rating"><small>Rating: ${data['rating']}</small></p><p class="review_text">${data['text']}</p>`;
-            reviews.appendChild(review);
-        };
-    </script>
-    <div class="create_review_form">
-        <p>Rating: <select class="create_review_rating">
-            <option value="5">5</option>
-            <option value="4">4</option>
-            <option value="3">3</option>
-            <option value="2">2</option>
-            <option value="1">1</option>
-        </select></p>
-        <p class="create_review_text_field">Review: <textarea class="create_review_text"></textarea></p>
-        <p><button class="form_button create_review_button" onclick="createOrder();">Create review</button></p>
-    </div>
+            async function createOrderItem(data) {
+                let reviews = document.querySelector('.reviews');
+                let review = document.createElement('section');
+                review.className = 'review';
+                review.innerHTML = `<p class="review_user"><strong>${data['user']}</strong></p><p class="review_rating"><small>Rating: ${data['rating']}</small></p><p class="review_text">${data['text']}</p>`;
+                reviews.appendChild(review);
+            };
+        </script>
+        <div class="create_review_form">
+            <p>Rating: <select class="create_review_rating">
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select></p>
+            <p class="create_review_text_field">Review: <textarea class="create_review_text"></textarea></p>
+            <p><button class="form_button create_review_button" onclick="createOrder();">Create review</button></p>
+        </div>
+    {% endif %}
 </article>
 {% endblock %}
