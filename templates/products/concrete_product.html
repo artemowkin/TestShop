@@ -57,8 +57,10 @@
             </a>
         {% endfor %}
     </aside>
-    {% if reviews %}
+    {% if reviews or user.is_authenticated %}
         <h2>Reviews:</h2>
+    {% endif %}
+    {% if reviews %}
         <aside class="reviews">
             {% for review in reviews %}
                 <section class="review">
@@ -68,6 +70,8 @@
                 </section>
             {% endfor %}
         </aside>
+    {% else %}
+        <aside class="reviews"></aside>
     {% endif %}
     {% if user.is_authenticated %}
         <script>
