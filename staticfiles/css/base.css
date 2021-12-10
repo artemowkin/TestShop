@@ -790,7 +790,7 @@ main {
         max-width: 100%;
     }
 
-    .create_review_button {
+    .create_review_button, #create_order_button {
         margin-top: 1rem;
         width: 100%;
     }
