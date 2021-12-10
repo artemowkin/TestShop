@@ -620,7 +620,8 @@ main {
 
     main {
         padding: 1rem;
-        margin-bottom: 6rem;
+        margin-bottom: 5rem;
+        margin-top: 1rem;
     }
 
     .header_top {
@@ -774,7 +775,7 @@ main {
     }
 
     .cart_remove_product {
-        padding: .75rem .75rem .35rem;
+        padding: .65rem .75rem .35rem;
     }
 
     .cart_buttons {
