@@ -23,5 +23,5 @@ class Review(models.Model):
 
     class Meta:
         db_table = 'reviews'
-        ordering = ('-pub_datetime',)
+        ordering = ('pub_datetime',)
 
