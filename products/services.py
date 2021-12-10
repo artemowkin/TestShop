@@ -133,6 +133,7 @@ def get_product_rating(product: Product) -> float:
     all_product_reviews = product.reviews.all()
     product_rating = all_product_reviews.aggregate(
         product_rating=Avg('rating')
-    )['product_rating']
+    )['product_rating'] or 0.0
+    product_rating = round(float(product_rating), 2)
     return product_rating or 0.0
 
