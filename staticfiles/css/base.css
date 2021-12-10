@@ -529,6 +529,10 @@ main {
     justify-content: center;
 }
 
+.similar_product h3 {
+    transition: color .25s ease-in-out;
+}
+
 .similar_product:hover {
     background-color: rgba(0,0,0,.03);
 }
