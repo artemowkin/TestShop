@@ -57,10 +57,12 @@
             </a>
         {% endfor %}
     </aside>
+    <h2>Reviews:</h2>
     <aside class="reviews">
         {% for review in reviews %}
             <section class="review">
-                <p class="review_user">{{ review.user }}</p>
+                <p class="review_user"><b>{{ review.user }}</b></p>
+                <p class="review_rating"><small>Rating: {{ review.rating }}</small></p>
                 <p class="review_text">{{ review.text }}</p>
             </section>
         {% endfor %}
@@ -87,7 +89,7 @@
             let reviews = document.querySelector('.reviews');
             let review = document.createElement('section');
             review.className = 'review';
-            review.innerHTML = `<p class="review_user">${data['user']}</p><p class="review_text">${data['text']}</p>`;
+            review.innerHTML = `<p class="review_user"><strong>${data['user']}</strong></p><p class="review_rating"><small>Rating: ${data['rating']}</small></p><p class="review_text">${data['text']}</p>`;
             reviews.appendChild(review);
         };
     </script>

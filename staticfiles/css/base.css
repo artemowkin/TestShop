@@ -592,6 +592,27 @@ main {
     background-color: white;
 }
 
+.concrete_product h2 {
+    margin: 2rem 0;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.review {
+    width: 100%;
+    padding: 1rem;
+    background-color: rgba(0,0,0,.03);
+    border-radius: 1rem;
+}
+
+.review_rating, .review_user {
+    margin: 0;
+}
+
 @media (max-width: 700px) {
     header nav {
         display: none;
