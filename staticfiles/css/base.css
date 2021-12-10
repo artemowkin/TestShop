@@ -815,4 +815,27 @@ main {
         margin-top: 1rem;
         width: 100%;
     }
+
+    .order_product {
+        padding: 0;
+    }
+
+    .order_product:hover {
+        background-color: white;
+    }
+
+    .order_product:hover .order_product_title {
+        color: #403F37;
+    }
+
+    .order_product_title {
+        margin-left: 0.5rem;
+    }
+
+    .delete_order {
+        width: 100%;
+        background-color: rgba(0,0,0,.03);
+    }
+
+    .delete_order:hover {}
 }
