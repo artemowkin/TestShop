@@ -1,8 +1,13 @@
+import logging
+
 from django.contrib.sessions.backends.db import SessionStore
 from django.db.models import Sum
 
 from products.models import Product
 from products.services import GetProductsService
+
+
+logger = logging.getLogger('testshop')
 
 
 class Cart:
@@ -27,6 +32,9 @@ class Cart:
         total_sum = products.aggregate(
             products_sum=Sum('price')
         )['products_sum'] or 0.0
+        logger.debug(
+            f'Getted products from cart: {products}, total_sum: {total_sum}'
+        )
         return {'products': products, 'total_sum': total_sum}
 
     def add_product(self, product : Product) -> None:
@@ -37,6 +45,7 @@ class Cart:
             session_cart['total_sum'] += float(product.price)
             self._session['cart'] = session_cart
             self._session.modified = True
+            logger.debug(f'Added product to cart: {product}')
 
     def clear(self) -> None:
         """Clear products from cart"""
@@ -46,6 +55,7 @@ class Cart:
             session_cart['total_sum'] = 0.0
             self._session['cart'] = session_cart
             self._session.modified = True
+            logger.debug('Cleared cart')
 
     def remove_product(self, product : Product) -> None:
         """Remove product from cart"""
@@ -55,6 +65,7 @@ class Cart:
             session_cart['total_sum'] -= float(product.price)
             self._session['cart'] = session_cart
             self._session.modified = True
+            logger.debug(f'Removed product from cart: {product}')
 
     def is_empty(self) -> bool:
         """Check is cart empty"""

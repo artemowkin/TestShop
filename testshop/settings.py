@@ -192,9 +192,9 @@ LOGGING = {
         'level': 'WARNING',
     },
     'loggers': {
-        'django': {
+        'testshop': {
             'handlers': ['file'],
-            'lovel': 'DEBUG',
+            'level': 'DEBUG',
         },
     },
 }
