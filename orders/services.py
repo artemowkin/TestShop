@@ -89,6 +89,7 @@ class CreateOrderService:
             first_name=order_data['first_name'],
             last_name=order_data['last_name'], phone=order_data['phone']
         )
+        if receivers.count() > 1: receivers.delete()
         if receivers: return receivers[0]
         receiver = Receiver(
             first_name=order_data['first_name'],
