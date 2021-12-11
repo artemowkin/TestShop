@@ -50,22 +50,23 @@ class ProductsSearchService:
         method = getattr(self, method_name)
         if isinstance(kwargs[method_name], list):
             return method(
-                kwargs[method_name][0], queryset=result_queryset
+                kwargs[method_name], queryset=result_queryset
             )
 
         return method(
             kwargs[method_name], queryset=result_queryset
         )
 
-    def search(self, **kwargs) -> QuerySet:
+    def search(self, **kwargs: dict) -> QuerySet:
         """
         Get search parameters in keyword arguments dict, parse
         it by parameters names, call the method with the same name,
         and return the result queryset
         """
         result_queryset = self._model.objects.all()
+        if not self._is_kwargs_valid(kwargs): self._transform_kwargs(kwargs)
         methods = [
-            key for key in kwargs if hasattr(self, key) and kwargs[key][0]
+            key for key in kwargs if hasattr(self, key) and kwargs[key]
         ]
         for method_name in methods:
             result_queryset = self._get_method_queryset(
@@ -73,6 +74,17 @@ class ProductsSearchService:
             )
 
         return result_queryset
+
+    def _is_kwargs_valid(self, kwargs: dict) -> bool:
+        """CHeck is kwargs a dict with list values"""
+        return all(
+            [not isinstance(kwargs[key], list) for key in kwargs]
+        )
+
+    def _transform_kwargs(self, kwargs: dict) -> None:
+        """Transform kwargs with values list types"""
+        for key in kwargs:
+            kwargs[key] = kwargs[key][0]
 
     def ord_by(self, ordering_type: str,
             queryset: Optional[QuerySet] = None) -> QuerySet:
