@@ -1,4 +1,5 @@
 import simplejson as json
+from simplejson.errors import JSONDecodeError
 
 from django.views import View
 from django.http import JsonResponse, Http404
@@ -10,7 +11,11 @@ class AddProductReviewView(View):
 
     def post(self, request, product_pk):
         service = CreateReviewService()
-        json_request = json.loads(request.body)
+        try:
+            json_request = json.loads(request.body)
+        except JSONDecodeError:
+            raise Http404
+
         created_review = service.create(
             product_pk, request.user,
             json_request['rating'], json_request['text']

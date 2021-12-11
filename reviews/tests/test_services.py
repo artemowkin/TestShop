@@ -51,7 +51,7 @@ class CreateReviewServiceTests(TestCase):
 
     def test_create(self):
         review = self.service.create(
-            self.product.pk, self.user.pk, 5, 'some review'
+            self.product.pk, self.user, 5, 'some review'
         )
 
         self.assertEqual(review.product, self.product)
@@ -62,6 +62,5 @@ class CreateReviewServiceTests(TestCase):
     def test_create_with_incorrect_rating(self):
         with self.assertRaises(ValidationError):
             review = self.service.create(
-                self.product.pk, self.user.pk, 10, 'some review'
+                self.product.pk, self.user, 10, 'some review'
             )
-
