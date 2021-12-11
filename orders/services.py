@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.db.models import QuerySet
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, MultipleObjectsReturned
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import Http404
 
@@ -57,12 +57,30 @@ class CreateOrderService:
 
     def _create_address(self, order_data: dict) -> Address:
         """Create an address instance"""
-        address, created = Address.objects.get_or_create(
+        try:
+            address, created = Address.objects.get_or_create(
+                city=order_data['city'], street=order_data['street'],
+                house=order_data['house'], apartment=order_data['apartment'],
+                postal_code=order_data['postal_code']
+            )
+        except MultipleObjectsReturned:
+            address = self._handle_multiple_addresses(order_data)
+
+        return address
+
+    def _handle_multiple_addresses(self) -> Address:
+        """Handle if addresses are multiple"""
+        addresses = Address.objects.filter(
             city=order_data['city'], street=order_data['street'],
             house=order_data['house'], apartment=order_data['apartment'],
             postal_code=order_data['postal_code']
         )
-        return address
+        addresses.delete()
+        return Address.objects.create(
+            city=order_data['city'], street=order_data['street'],
+            house=order_data['house'], apartment=order_data['apartment'],
+            postal_code=order_data['postal_code']
+        )
 
     def _create_receiver(self, order_data: dict) -> Receiver:
         """Create a receiver instance"""
