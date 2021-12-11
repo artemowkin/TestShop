@@ -167,3 +167,34 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = 'homepage'
 
 ACCOUNT_LOGOUT_REDIRECT_URL = 'homepage'
+
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'project.log',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'lovel': 'DEBUG',
+        },
+    },
+}
