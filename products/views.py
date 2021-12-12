@@ -1,3 +1,5 @@
+import logging
+
 from django.views import View
 from django.shortcuts import render
 
@@ -7,9 +9,13 @@ from .services import (
 )
 
 
+logger = logging.getLogger('testshop')
+
+
 class HomePageView(View):
 
     def get(self, request):
+        logger.debug(f"Requested GET {request.path} by {request.user.email}")
         service = GetProductsService()
         last_products = service.get_last()
         return render(request, 'products/home.html', {
@@ -20,6 +26,7 @@ class HomePageView(View):
 class ConcreteProductView(View):
 
     def get(self, request, pk):
+        logger.debug(f"Requested GET {request.path} by {request.user.email}")
         service = GetProductsService()
         product = service.get_concrete(pk)
         similar_products = service.get_similar(product)
@@ -34,6 +41,7 @@ class ConcreteProductView(View):
 class ShopView(View):
 
     def get(self, request):
+        logger.debug(f"Requested GET {request.path} by {request.user.email}")
         service = ProductsSearchService()
         products = service.search(**request.GET)
         return render(request, 'products/shop.html', {'products': products})

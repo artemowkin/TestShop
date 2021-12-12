@@ -1,12 +1,16 @@
 import re
 from uuid import UUID
 from typing import Optional, Union
+import logging
 
 from django.db.models import QuerySet, Avg, Q
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
 from .models import Product
+
+
+logger = logging.getLogger('testshop')
 
 
 class GetProductsService:
@@ -18,6 +22,7 @@ class GetProductsService:
         """Return last 9 products ordered by publication date"""
         all_products = self._model.objects.all()
         last_products = all_products.order_by('-pub_datetime')[:9:1]
+        logger.debug('Getted last 9 products')
         return last_products
 
     def get_concrete(self, pk: UUID) -> Product:
@@ -26,6 +31,7 @@ class GetProductsService:
         if doesn't exist
         """
         product = get_object_or_404(self._model, pk=pk)
+        logger.debug(f'Getted concrete product: {pk}')
         return product
 
     def get_similar(self, product: Product) -> list:
@@ -33,6 +39,7 @@ class GetProductsService:
         similar_products = Product.objects.filter(
             category__pk=product.category.pk
         ).exclude(pk=product.pk)[:5:1]
+        logger.debug(f'Getted similar products for product {product.pk}')
         return similar_products
 
 
@@ -65,6 +72,9 @@ class ProductsSearchService:
         """
         result_queryset = self._model.objects.all()
         if not self._is_kwargs_valid(kwargs): self._transform_kwargs(kwargs)
+        logger.debug(
+            f'Requested search products with the following parameters: {kwargs}'
+        )
         methods = [
             key for key in kwargs if hasattr(self, key) and kwargs[key]
         ]
@@ -90,6 +100,7 @@ class ProductsSearchService:
             queryset: Optional[QuerySet] = None) -> QuerySet:
         """Order queryset by `ordering_type`"""
         ordering_field = self._ordering_fields.get(ordering_type)
+        logger.debug(f"Products ordered by {ordering_type}")
         if not ordering_field: return queryset
         if not queryset:
             return self._model.objects.order_by(ordering_field, '-pub_datetime')
@@ -100,6 +111,7 @@ class ProductsSearchService:
             queryset: Optional[QuerySet]) -> QuerySet:
         """Search products with concrete category"""
         if not self._is_category_pk_valid(category_pk): return queryset
+        logger.debug(f"Products filtered by category: {category_pk}")
         if not queryset:
             return self._model.objects.filter(category__pk=category_pk)
 
@@ -116,6 +128,7 @@ class ProductsSearchService:
             queryset: Optional[QuerySet]) -> QuerySet:
         """Search products with price less or equal max_price_value"""
         if not self._is_max_price_valid(max_price_value): return queryset
+        logger.debug(f'Products filtered by max price: {max_price_value}')
         if not queryset:
             return self._model.objects.filter(price__lte=max_price_value)
 
@@ -128,6 +141,7 @@ class ProductsSearchService:
     def query(self, query_value: str,
             queryset: Optional[QuerySet]) -> QuerySet:
         """Search products using search query"""
+        logger.debug(f"Products searched by query: {query_value}")
         if not queryset:
             return self._model.objects.filter(
                 Q(title__icontains=query_value) |
@@ -147,5 +161,5 @@ def get_product_rating(product: Product) -> float:
         product_rating=Avg('rating')
     )['product_rating'] or 0.0
     product_rating = round(float(product_rating), 2)
+    logger.debug(f"Getted rating ({product_rating}) for product {product.pk}")
     return product_rating or 0.0
-

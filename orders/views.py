@@ -105,6 +105,9 @@ class DeleteOrderView(LoginRequiredMixin, View):
 	login_url = 'account_login'
 
 	def post(self, request, pk):
+		logger.debug(
+			f"Requested POST {request.path} by user {request.user.email}"
+		)
 		get_orders_service = GetOrdersService(request.user)
 		order = get_orders_service.get_concrete(pk)
 		deleted = delete_order(request.user, order)
