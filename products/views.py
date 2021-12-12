@@ -2,6 +2,7 @@ import logging
 
 from django.views import View
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 from reviews.services import get_product_reviews
 from .services import (
@@ -44,4 +45,15 @@ class ShopView(View):
         logger.debug(f"Requested GET {request.path} by {request.user}")
         service = ProductsSearchService()
         products = service.search(**request.GET)
-        return render(request, 'products/shop.html', {'products': products})
+        page_obj = self._paginate_products(products)
+        return render(request, 'products/shop.html', {'page_obj': page_obj})
+
+    def _paginate_products(self, products):
+        paginator = Paginator(products, 3*4)
+        page_number = self.request.GET.get('page')
+        if not page_number.isdigit() or page_number == '0':
+            page_number = 1
+        if int(page_number) > paginator.num_pages:
+            page_number = paginator.num_pages
+
+        return paginator.get_page(int(page_number))

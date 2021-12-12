@@ -633,6 +633,34 @@ main {
     margin: 0;
 }
 
+.paginator {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 2rem;
+}
+
+.paginator span, .paginator a {
+    display: inline-block;
+    padding: .5rem 1rem;
+    background-color: rgba(0,0,0,.03);
+    border-radius: .5rem;
+}
+
+.paginator a {
+    transition: background-color .25s ease-in-out, color .25s ease-in-out;
+}
+
+.paginator span {
+    background-color: white;
+}
+
+.paginator a:hover {
+    background-color: white;
+    color: #FECE2F;
+}
+
 @media (max-width: 700px) {
     header nav {
         display: none;
