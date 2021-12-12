@@ -56,9 +56,12 @@
             <p class="concrete_product_short_description"><strong>Short description: </strong>{{ product.short_description }}</p>
             <p class="concrete_product_description"><strong>Description: </strong>{{ product.description }}</p>
             <p class="concrete_product_rating"><strong>Rating: </strong>{{ rating }}</p>
-            {% if not product|is_in_cart:request %}
+            {% if user.is_authenticated and not product|is_in_cart:request %}
                 <button type="button" class="product_add_to_cart" onclick="addToCart();">Add to cart</button>
                 <p class="product_added_in_cart">Product added to cart</p>
+            {% endif %}
+            {% if not user.is_authenticated %}
+                <a href="{% url 'account_login' %}" class="product_add_to_cart">Log In to buy</a>
             {% endif %}
         </div>
     </section>
