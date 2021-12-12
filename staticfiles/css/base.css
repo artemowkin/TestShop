@@ -902,5 +902,6 @@ main {
 
     .paginator {
         justify-content: center;
+        gap: .45rem;
     }
 }

@@ -99,17 +99,21 @@
     {% endif %}
     <aside class="paginator">
         {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo;</a>
             <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
             <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
         {% else %}
+            <span>&laquo;</span>
             <span>&lt;</span>
         {% endif %}
         <span>{{ page_obj.number }}</span>
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
             <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
         {% else %}
             <span>&gt;</span>
+            <span>&raquo;</span>
         {% endif %}
     </aside>
     {% if user.is_authenticated %}
