@@ -19,9 +19,7 @@ class GetAllOrdersView(LoginRequiredMixin, View):
 	login_url = 'account_login'
 
 	def get(self, request):
-		logger.debug(
-			f"Requested GET {request.path} by user {request.user.email}"
-		)
+		logger.debug(f"Requested GET {request.path} by {request.user.email}")
 		get_service = GetOrdersService(request.user)
 		user_orders = get_service.get_all()
 		return render(request, 'orders/all_orders.html', {
@@ -33,9 +31,7 @@ class CreateOrderView(LoginRequiredMixin, View):
 	login_url = 'account_login'
 
 	def get(self, request):
-		logger.debug(
-			f"Requested GET {request.path} by user {request.user.email}"
-		)
+		logger.debug(f"Requested GET {request.path} by {request.user.email}")
 		create_order_form = CreateOrderForm()
 		cart = Cart(request.session)
 		if cart.is_empty():
@@ -47,9 +43,7 @@ class CreateOrderView(LoginRequiredMixin, View):
 		})
 
 	def post(self, request):
-		logger.debug(
-			f"Requested POST {request.path} by user {request.user.email}"
-		)
+		logger.debug(f"Requested POST {request.path} by {request.user.email}")
 		create_order_form = CreateOrderForm(data=request.POST)
 		if create_order_form.is_valid():
 			return self.form_valid(create_order_form)
@@ -91,9 +85,7 @@ class ConcreteOrderView(LoginRequiredMixin, View):
 	login_url = 'account_login'
 
 	def get(self, request, pk):
-		logger.debug(
-			f"Requested GET {request.path} by user {request.user.email}"
-		)
+		logger.debug(f"Requested GET {request.path} by {request.user.email}")
 		get_orders_service = GetOrdersService(request.user)
 		order = get_orders_service.get_concrete(pk)
 		return render(self.request, 'orders/concrete.html', {
@@ -105,9 +97,7 @@ class DeleteOrderView(LoginRequiredMixin, View):
 	login_url = 'account_login'
 
 	def post(self, request, pk):
-		logger.debug(
-			f"Requested POST {request.path} by user {request.user.email}"
-		)
+		logger.debug(f"Requested POST {request.path} by {request.user.email}")
 		get_orders_service = GetOrdersService(request.user)
 		order = get_orders_service.get_concrete(pk)
 		deleted = delete_order(request.user, order)

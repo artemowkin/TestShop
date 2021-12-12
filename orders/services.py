@@ -22,7 +22,9 @@ class GetOrdersService:
     def __init__(self, user: User) -> None:
         self._user = user
         self._model = Order
-        if not self._user.is_authenticated: raise PermissionDenied
+        if not self._user.is_authenticated:
+            logger.warning('Trying to get orders by not authenticated user')
+            raise PermissionDenied
 
     def get_all(self) -> QuerySet:
         """Return all user orders"""
@@ -31,7 +33,7 @@ class GetOrdersService:
 
     def get_concrete(self, pk: int) -> Order:
         """Return a concrete order using pk"""
-        logger.debug(f"Getted order ({pk}) by user {self._user.email}")
+        logger.debug(f"Getted order {pk} by user {self._user.email}")
         return get_object_or_404(self._model, pk=pk, user=self._user)
 
 
@@ -42,8 +44,15 @@ class CreateOrderService:
         self._user = user
         self._cart = Cart(session)
         self._model = Order
-        if not self._user.is_authenticated: raise PermissionDenied
-        if self._cart.is_empty(): raise Http404
+        if not self._user.is_authenticated:
+            logger.warning(
+                'Trying to create an order by not authenticated user'
+            )
+            raise PermissionDenied
+
+        if self._cart.is_empty():
+            logger.warning('Trying to create an order with empty cart')
+            raise Http404
 
     def create(self, order_data: dict) -> Order:
         """Create a new order using `order_data`"""
