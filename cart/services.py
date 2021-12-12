@@ -32,12 +32,10 @@ class Cart:
         total_sum = products.aggregate(
             products_sum=Sum('price')
         )['products_sum'] or 0.0
-        logger.debug(
-            f'Getted products from cart: {products}, total_sum: {total_sum}'
-        )
+        logger.debug('Getted all products from cart')
         return {'products': products, 'total_sum': total_sum}
 
-    def add_product(self, product : Product) -> None:
+    def add_product(self, product: Product) -> None:
         """Add the concrete product to cart"""
         session_cart = self._session['cart']
         if not str(product.pk) in session_cart['products']:
@@ -45,7 +43,7 @@ class Cart:
             session_cart['total_sum'] += float(product.price)
             self._session['cart'] = session_cart
             self._session.modified = True
-            logger.debug(f'Added product to cart: {product}')
+            logger.debug(f'Added product to cart: {product.pk}')
 
     def clear(self) -> None:
         """Clear products from cart"""
@@ -57,7 +55,7 @@ class Cart:
             self._session.modified = True
             logger.debug('Cleared cart')
 
-    def remove_product(self, product : Product) -> None:
+    def remove_product(self, product: Product) -> None:
         """Remove product from cart"""
         session_cart = self._session['cart']
         if str(product.pk) in session_cart['products']:
@@ -65,7 +63,7 @@ class Cart:
             session_cart['total_sum'] -= float(product.price)
             self._session['cart'] = session_cart
             self._session.modified = True
-            logger.debug(f'Removed product from cart: {product}')
+            logger.debug(f'Removed product from cart: {product.pk}')
 
     def is_empty(self) -> bool:
         """Check is cart empty"""
