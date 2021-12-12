@@ -1,3 +1,5 @@
+import logging
+
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
@@ -9,11 +11,13 @@ from products.services import GetProductsService
 
 
 User = get_user_model()
+logger = logging.getLogger('testshop')
 
 
 def get_product_reviews(product: Product) -> QuerySet:
     """Return all product reviews"""
     product_reviews = product.reviews.all()
+    logger.debug(f"Getted all reviews for product {product.pk}")
     return product_reviews
 
 
@@ -30,12 +34,30 @@ class CreateReviewService:
         Create a new review for product from user (if authenticated)
         with rating and text
         """
-        if not user.is_authenticated: raise PermissionDenied
+        if not user.is_authenticated:
+            self._handle_not_authenticated_user(product_pk)
+
         product = self._get_products_service.get_concrete(product_pk)
+        return self._create_review_entry(product, user, rating, text)
+
+    def _create_review_entry(self, product: Product, user: User,
+            rating: int, text: str) -> Review:
+        """Create the review model entry"""
         review = self._model(
             product=product, user=user, rating=rating, text=text
         )
         review.full_clean()
         review.save()
+        logger.debug(
+            f"Created a new review for product {product.pk} "
+            f"by user {user.email}"
+        )
         return review
 
+    def _handle_not_authenticated_user(self, product_pk: str) -> None:
+        """Handle if user is not authenticated"""
+        logger.warning(
+            f"Creating a new review for product {product_pk} by "
+            "not authenticated user"
+        )
+        raise PermissionDenied

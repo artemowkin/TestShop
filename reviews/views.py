@@ -1,5 +1,6 @@
 import simplejson as json
 from simplejson.errors import JSONDecodeError
+import logging
 
 from django.views import View
 from django.http import JsonResponse, Http404
@@ -7,13 +8,18 @@ from django.http import JsonResponse, Http404
 from .services import CreateReviewService
 
 
+logger = logging.getLogger('testshop')
+
+
 class AddProductReviewView(View):
 
     def post(self, request, product_pk):
+        logger.debug(f"Requested POST {request.path} by {request.user.email}")
         service = CreateReviewService()
         try:
             json_request = json.loads(request.body)
         except JSONDecodeError:
+            logger.warning("Requested product review creation without AJAX")
             raise Http404
 
         created_review = service.create(
@@ -28,4 +34,3 @@ class AddProductReviewView(View):
             'user': self.request.user.username, 'rating': review.rating,
             'text': review.text
         }
-
