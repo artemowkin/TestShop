@@ -14,7 +14,7 @@ logger = logging.getLogger('testshop')
 class AddProductReviewView(View):
 
     def post(self, request, product_pk):
-        logger.debug(f"Requested POST {request.path} by {request.user.email}")
+        logger.debug(f"Requested POST {request.path} by {request.user}")
         service = CreateReviewService()
         try:
             json_request = json.loads(request.body)

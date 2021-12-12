@@ -36,24 +36,27 @@ class ConcreteProductTests(FunctionalTest):
 
     def test_page_has_product_info(self):
         product_title = self.browser.find_element(
-            'css selector', '.product_title'
+            'css selector', '.concrete_product_title'
         ).text
         product_short_description = self.browser.find_element(
-            'css selector', '.product_short_description'
+            'css selector', '.concrete_product_short_description'
         ).text
         product_description = self.browser.find_element(
-            'css selector', '.product_description'
+            'css selector', '.concrete_product_description'
         ).text
         product_price = self.browser.find_element(
-            'css selector', '.product_price'
+            'css selector', '.concrete_product_price'
         ).text
 
         self.assertEqual(product_title, self.product.title)
         self.assertEqual(
-            product_short_description, self.product.short_description
+            product_short_description,
+            f"Short description: {self.product.short_description}"
         )
-        self.assertEqual(product_description, self.product.description)
-        self.assertEqual(product_price, self.product.price)
+        self.assertEqual(
+            product_description, f"Description: {self.product.description}"
+        )
+        self.assertEqual(product_price, f"{self.product.price} $")
 
     def test_page_has_similar_products(self):
         similar_products = self.browser.find_elements(

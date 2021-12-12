@@ -52,7 +52,7 @@ class CreateOrderView(LoginRequiredMixin, View):
 
 	def form_invalid(self, create_order_form):
 		logger.warning(
-			f"Sended incorrect data on {request.path}:"
+			f"Sended incorrect data on {self.request.path}:"
 			f" {create_order_form.errors}"
 		)
 		return render(self.request, 'orders/create_order.html', {
@@ -72,7 +72,7 @@ class CreateOrderView(LoginRequiredMixin, View):
 
 	def _handle_validation_error(self, create_order_form):
 		logger.warning(
-			f"{request.path} - Receiver with this phone "
+			f"{self.request.path} - Receiver with this phone "
 			"number already exists"
 		)
 		create_order_form.add_error(
