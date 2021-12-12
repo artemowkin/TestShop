@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
 {% load cart_extras %}
+{% load static %}
 
 {% block title %}TestShop | {{ product.title }}{% endblock %}
+
+{% block extended_headers_header %}
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+{% endblock %}
+
+{% block extended_headers_footer %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <script defer>
@@ -23,12 +34,22 @@
 <article class="concrete_product">
     <section class="concrete_product_info">
         <div class="concrete_product_images">
-            {% for image in product.images.all %}
-                {% if forloop.first %}
-                    <img src="{{ image.image.url }}" alt="product image">
-                {% endif %}
-            {% endfor %}
+            <div class="owl-carousel owl-theme">
+                {% for image in product.images.all %}
+                    <img class="item" src="{{ image.image.url }}" alt="product image">
+                {% endfor %}
+            </div>
         </div>
+        <script>
+            $(document).ready(function(){
+              $(".owl-carousel").owlCarousel({
+                items:1,
+                autowidth:false,
+                nav:true,
+                dots:true,
+              });
+            });
+        </script>
         <div class="concrete_product_right">
             <h1 class="concrete_product_title">{{ product.title }}</h1>
             <p class="concrete_product_price">{{ product.price }} $</p>

@@ -464,11 +464,29 @@ main {
     align-items: flex-start;
 }
 
-.concrete_product_images img {
-    width: 100%;
-    max-width: 400px;
+.concrete_product_images {
+    width: 50%;
+}
+
+.owl-carousel img {
+    display: block;
     height: 400px;
     object-fit: contain;
+}
+
+.owl-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .25rem;
+}
+
+.owl-nav button {
+    font-size: 4rem !important;
+}
+
+.owl-dots {
+    display: none;
 }
 
 .concrete_product_right {
@@ -839,4 +857,16 @@ main {
     }
 
     .delete_order:hover {}
+
+    .concrete_product_images {
+        width: 100%;
+    }
+
+    .owl-nav {
+        display: none;
+    }
+
+    .owl-dots {
+        display: block;
+    }
 }
