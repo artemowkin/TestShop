@@ -32,11 +32,22 @@ class ConcreteProductView(View):
         product = service.get_concrete(pk)
         similar_products = service.get_similar(product)
         product_reviews = get_product_reviews(product)
+        page_obj = self._paginate_reviews(product_reviews)
         product_rating = get_product_rating(product)
         return render(request, 'products/concrete_product.html', {
             'product': product, 'similar_products': similar_products,
-            'reviews': product_reviews, 'rating': product_rating
+            'page_obj': page_obj, 'rating': product_rating
         })
+
+    def _paginate_reviews(self, reviews):
+        paginator = Paginator(reviews, 5)
+        page_number = self.request.GET.get('page', '')
+        if not page_number.isdigit() or page_number == '0':
+            page_number = 1
+        if int(page_number) > paginator.num_pages:
+            page_number = paginator.num_pages
+
+        return paginator.get_page(int(page_number))
 
 
 class ShopView(View):
@@ -50,7 +61,7 @@ class ShopView(View):
 
     def _paginate_products(self, products):
         paginator = Paginator(products, 3*4)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get('page', '')
         if not page_number.isdigit() or page_number == '0':
             page_number = 1
         if int(page_number) > paginator.num_pages:

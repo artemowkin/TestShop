@@ -19,7 +19,7 @@
         <p>There are no products in the shop :(</p>
     {% endfor %}
 </section>
-<section class="paginator">
+<aside class="paginator">
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
         <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
@@ -33,5 +33,5 @@
     {% else %}
         <span>&gt;</span>
     {% endif %}
-</section>
+</aside>
 {% endblock %}

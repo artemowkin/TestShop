@@ -81,12 +81,12 @@
             </a>
         {% endfor %}
     </aside>
-    {% if reviews or user.is_authenticated %}
+    {% if page_obj.object_list or user.is_authenticated %}
         <h2>Reviews:</h2>
     {% endif %}
-    {% if reviews %}
+    {% if page_obj.object_list %}
         <aside class="reviews">
-            {% for review in reviews %}
+            {% for review in page_obj.object_list %}
                 <section class="review">
                     <p class="review_user"><b>{{ review.user }}</b></p>
                     <p class="review_rating"><small>Rating: {{ review.rating }}</small></p>
@@ -97,6 +97,21 @@
     {% else %}
         <aside class="reviews"></aside>
     {% endif %}
+    <aside class="paginator">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% else %}
+            <span>&lt;</span>
+        {% endif %}
+        <span>{{ page_obj.number }}</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+        {% else %}
+            <span>&gt;</span>
+        {% endif %}
+    </aside>
     {% if user.is_authenticated %}
         <script>
             async function createOrder() {
