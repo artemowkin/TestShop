@@ -17,7 +17,7 @@ class Receiver(models.Model):
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20, validators=[
         RegexValidator(
-            regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"
+            regex=r"^((\+7|7|8)+([0-9]){10})$"
         ),
     ], unique=True)
 

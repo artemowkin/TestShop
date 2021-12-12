@@ -11,7 +11,7 @@ class CreateOrderForm(forms.Form):
         attrs={'placeholder': 'Ivanov'}
     ))
     phone = forms.RegexField(
-        regex=r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$",
+        regex=r"^((\+7|7|8)+([0-9]){10})$",
         error_messages={'invalid': 'Phone number is incorrect'},
         widget=forms.TextInput(attrs={'placeholder': '8 XXX XXX-XX-XX'})
     )
