@@ -61,7 +61,7 @@
                 <p class="product_added_in_cart">Product added to cart</p>
             {% endif %}
             {% if not user.is_authenticated %}
-                <a href="{% url 'account_login' %}" class="product_add_to_cart">Log In to buy</a>
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="product_add_to_cart">Log In to buy</a>
             {% endif %}
         </div>
     </section>

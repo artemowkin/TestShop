@@ -7,6 +7,13 @@
 	<h2>Log In</h2>
 	{% csrf_token %}
 	{{ form.as_p }}
-	<p><button type="submit" class="form_button">Log In</button> or <a href="{% url 'account_signup' %}" class="form_button">Sign Up</a></p>
+	<p>
+		<button type="submit" class="form_button">Log In</button> or
+		{% if 'next' in request.GET %}
+			<a href="{% url 'account_signup' %}?next={{ request.GET.next }}" class="form_button">Sign Up</a>
+		{% else %}
+			<a href="{% url 'account_signup' %}" class="form_button">Sign Up</a>
+		{% endif %}
+	</p>
 </form>
 {% endblock %}
