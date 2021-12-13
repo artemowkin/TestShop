@@ -50,4 +50,3 @@ $ python manage.py runserver
 ```
 
 And the site will be available on http://127.0.0.1:8000/home/
-
