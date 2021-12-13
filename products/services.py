@@ -52,37 +52,17 @@ class ProductsSearchService:
         }
         self._model = Product
 
-    def _get_method_queryset(self, kwargs: dict, method_name: str,
-            result_queryset: QuerySet) -> QuerySet:
-        method = getattr(self, method_name)
-        if isinstance(kwargs[method_name], list):
-            return method(
-                kwargs[method_name], queryset=result_queryset
-            )
-
-        return method(
-            kwargs[method_name], queryset=result_queryset
-        )
-
     def search(self, **kwargs: dict) -> QuerySet:
         """
         Get search parameters in keyword arguments dict, parse
         it by parameters names, call the method with the same name,
         and return the result queryset
         """
-        result_queryset = self._model.objects.all()
         if not self._is_kwargs_valid(kwargs): self._transform_kwargs(kwargs)
         logger.debug(
             f'Requested search products with the following parameters: {kwargs}'
         )
-        methods = [
-            key for key in kwargs if hasattr(self, key) and kwargs[key]
-        ]
-        for method_name in methods:
-            result_queryset = self._get_method_queryset(
-                kwargs, method_name, result_queryset
-            )
-
+        result_queryset = self._run_methods_chain(kwargs)
         return result_queryset
 
     def _is_kwargs_valid(self, kwargs: dict) -> bool:
@@ -95,6 +75,30 @@ class ProductsSearchService:
         """Transform kwargs with values list types"""
         for key in kwargs:
             kwargs[key] = kwargs[key][0]
+
+    def _run_methods_chain(self, kwargs: dict) -> QuerySet:
+        """Calls methods chain using kwargs data"""
+        methods = self._get_kwargs_methods(kwargs)
+        result_queryset = self._model.objects.all()
+        for method_name in methods:
+            result_queryset = self._get_method_queryset(
+                kwargs, method_name, result_queryset
+            )
+
+        return result_queryset
+
+    def _get_kwargs_methods(self, kwargs: dict) -> list[str]:
+        """Parses kwargs keys and returns list with methods names"""
+        return [
+            key for key in kwargs if hasattr(self, key) and kwargs[key]
+        ]
+
+    def _get_method_queryset(self, kwargs: dict, method_name: str,
+            result_queryset: QuerySet) -> QuerySet:
+        method = getattr(self, method_name)
+        return method(
+            kwargs[method_name], queryset=result_queryset
+        )
 
     def ord_by(self, ordering_type: str,
             queryset: Optional[QuerySet] = None) -> QuerySet:
@@ -143,11 +147,13 @@ class ProductsSearchService:
         """Search products using search query"""
         logger.debug(f"Products searched by query: {query_value}")
         if not queryset:
-            return self._model.objects.filter(
-                Q(title__icontains=query_value) |
-                Q(short_description__icontains=query_value)
-            )
+            return self._search_by_query(query_value, self._model.objects.all())
 
+        return self._search_by_query(query_value, queryset)
+
+    def _search_by_query(self, query_value: str,
+            queryset: QuerySet) -> QuerySet:
+        """Filters queryset by query_value"""
         return queryset.filter(
             Q(title__icontains=query_value) |
             Q(short_description__icontains=query_value)
