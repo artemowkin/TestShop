@@ -165,6 +165,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'staticfiles'
 ]
 
+if ENVIRONMENT == 'heroku':
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 SESSION_SAVE_EVERY_REQUEST = True
 

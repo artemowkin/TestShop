@@ -1,7 +1,8 @@
 # PyCharm
 .idea/
 
-# Media files
+# Media and static files
+static/
 media/
 
 # Byte-compiled / optimized / DLL files
