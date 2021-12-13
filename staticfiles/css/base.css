@@ -661,6 +661,10 @@ main {
     color: #FECE2F;
 }
 
+.create_order_form_header {
+    margin-bottom: 2rem;
+}
+
 @media (max-width: 700px) {
     header nav {
         display: none;
@@ -903,5 +907,9 @@ main {
     .paginator {
         justify-content: center;
         gap: .45rem;
+    }
+
+    .create_order_form_header {
+        text-align: center;
     }
 }

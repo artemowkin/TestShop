@@ -3,6 +3,7 @@
 {% block title %}TestShop | Create Order{% endblock %}
 
 {% block content %}
+<h1 class="create_order_form_header">Create order</h1>
 <form method="POST" action="{% url 'create_order' %}" class="auth_form">
 	{% csrf_token %}
 	{{ form.as_p }}
