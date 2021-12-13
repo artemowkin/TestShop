@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib.sessions.backends.db import SessionStore
-from django.db.models import Sum
+from django.db.models import Sum, QuerySet
 
 from products.models import Product
 from products.services import GetProductsService
@@ -26,14 +26,18 @@ class Cart:
     def get_products(self) -> dict:
         """Return all products in cart from session"""
         cart_products_pks = self._session['cart']['products']
-        products = self._product_model.objects.filter(
-            pk__in=cart_products_pks
-        )
+        products = self._get_products_entries(cart_products_pks)
         total_sum = products.aggregate(
             products_sum=Sum('price')
         )['products_sum'] or 0.0
         logger.debug('Getted all products from cart')
         return {'products': products, 'total_sum': total_sum}
+
+    def _get_products_entries(self, cart_products_pks: list) -> QuerySet:
+        """Returns all products in category"""
+        return self._product_model.objects.filter(
+            pk__in=cart_products_pks
+        )
 
     def add_product(self, product: Product) -> None:
         """Add the concrete product to cart"""
