@@ -1,6 +1,7 @@
 import os
-
 from pathlib import Path
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -17,6 +18,19 @@ DEBUG = int(os.getenv('DJANGO_DEBUG', '1'))
 
 ALLOWED_HOSTS = ['*']
 
+ENVIRONMENT = os.getenv('DJANGO_ENVIRONMENT', 'development')
+
+if ENVIRONMENT in ('production', 'heroku'):
+    SECURE_BORWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY' 
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_REFERRER_POLICY = 'origin'
 
 # Application definition
 
@@ -41,6 +55,9 @@ INSTALLED_APPS = [
     'orders',
 ]
 
+if ENVIRONMENT == 'heroku':
+    INSTALLED_APPS.append('whitenoise')
+
 SITE_ID = 1
 
 MIDDLEWARE = [
@@ -52,6 +69,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if ENVIRONMENT == 'heroku':
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 ROOT_URLCONF = 'testshop.urls'
 
@@ -91,6 +111,10 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+if ENVIRONMENT == 'heroku':
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
 
 
 # Password validation
