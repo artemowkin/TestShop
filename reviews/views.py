@@ -16,18 +16,20 @@ class AddProductReviewView(View):
     def post(self, request, product_pk):
         logger.debug(f"Requested POST {request.path} by {request.user}")
         service = CreateReviewService()
-        try:
-            json_request = json.loads(request.body)
-        except JSONDecodeError:
-            logger.warning("Requested product review creation without AJAX")
-            raise Http404
-
+        json_request = self._get_json_request()
         created_review = service.create(
             product_pk, request.user,
             json_request['rating'], json_request['text']
         )
         serialized_review = self._serialize_review(created_review)
         return JsonResponse(serialized_review, status=201)
+
+    def _get_json_request(self):
+        try:
+            return json.loads(self.request.body)
+        except JSONDecodeError:
+            logger.warning("Requested product review creation without AJAX")
+            raise Http404
 
     def _serialize_review(self, review):
         return {

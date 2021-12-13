@@ -34,9 +34,7 @@ class CreateReviewService:
         Create a new review for product from user (if authenticated)
         with rating and text
         """
-        if not user.is_authenticated:
-            self._handle_not_authenticated_user(product_pk)
-
+        self._handle_not_authenticated_user(user, product_pk)
         product = self._get_products_service.get_concrete(product_pk)
         return self._create_review_entry(product, user, rating, text)
 
@@ -54,10 +52,12 @@ class CreateReviewService:
         )
         return review
 
-    def _handle_not_authenticated_user(self, product_pk: str) -> None:
+    def _handle_not_authenticated_user(self, user: User,
+            product_pk: str) -> None:
         """Handle if user is not authenticated"""
-        logger.warning(
-            f"Creating a new review for product {product_pk} by "
-            "not authenticated user"
-        )
-        raise PermissionDenied
+        if not user.is_authenticated:
+            logger.warning(
+                f"Creating a new review for product {product_pk} by "
+                "not authenticated user"
+            )
+            raise PermissionDenied
