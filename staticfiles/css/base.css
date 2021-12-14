@@ -806,7 +806,7 @@ main {
     }
 
     .order h3 {
-        margin-top: 0
+        margin-top: 0;
     }
 
     .order_total_price {
@@ -815,7 +815,7 @@ main {
 
     .cart_product {
         padding: 0;
-        margin-bottom: 2rem
+        margin-bottom: 2rem;
     }
 
     .cart_product_title, .cart_product_price {
@@ -902,6 +902,7 @@ main {
 
     .owl-dots {
         display: block;
+        margin-top: 1rem;
     }
 
     .paginator {
