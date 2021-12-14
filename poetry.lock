@@ -421,8 +421,8 @@ h11 = ">=0.9.0,<1"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.10.0"
-content-hash = "bbebfcc1037381cd200610329ed9a547314e4a7b9d4133a2e571a302c3f2901d"
+python-versions = "^3.8.0"
+content-hash = "7c34549be3b6a0a04bc6120af8a8bae26d012326c536762a6be23ff380c9cf73"
 
 [metadata.files]
 asgiref = [

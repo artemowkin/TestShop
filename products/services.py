@@ -87,7 +87,7 @@ class ProductsSearchService:
 
         return result_queryset
 
-    def _get_kwargs_methods(self, kwargs: dict) -> list[str]:
+    def _get_kwargs_methods(self, kwargs: dict) -> list:
         """Parses kwargs keys and returns list with methods names"""
         return [
             key for key in kwargs if hasattr(self, key) and kwargs[key]
