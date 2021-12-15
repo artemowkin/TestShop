@@ -215,12 +215,13 @@ main {
 }
 
 .more_link {
-    margin-top: 2rem;
     width: 100%;
     text-align: center;
+    margin-top: 2rem;
 }
 
 .more_link a {
+    display: inline-block;
     padding: 1rem 2rem;
     border-radius: 1rem;
     transition: background-color .25s ease-in-out;
