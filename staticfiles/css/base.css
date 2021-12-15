@@ -665,6 +665,24 @@ main {
     margin-bottom: 2rem;
 }
 
+.http_error_message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.http_error_message h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.http_error_message img {
+    width: 100%;
+    max-width: 600px;
+    margin-top: -4rem;
+}
+
 @media (max-width: 700px) {
     header nav {
         display: none;
@@ -912,5 +930,9 @@ main {
 
     .create_order_form_header {
         text-align: center;
+    }
+
+    .http_error_message img {
+        margin-top: -3rem;
     }
 }

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}TestShop | Page not found{% endblock %}
+
+{% block content %}
+<section class="http_error_message">
+    <h1>Page not found :(</h1>
+    <img src="{% static 'images/error.png' %}">
+</section>
+{% endblock %}
