@@ -43,7 +43,7 @@ And go on http://127.0.0.1:8000/
 If you want to install this project to contribute the developing
 you need to have the following packages:
 
-* [Python >= 3.9](https://www.python.org/downloads/release/python-390/)
+* [Python >= 3.8](https://www.python.org/downloads/release/python-380/)
 * [Poetry](https://python-poetry.org/docs/#installation)
 
 If you already have these packages you need to install poetry dependencies:
