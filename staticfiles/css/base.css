@@ -638,7 +638,7 @@ main {
     justify-content: flex-start;
     align-items: center;
     gap: .5rem;
-    margin: 2rem 0;
+    margin-top: 2rem;
 }
 
 .paginator span, .paginator a {
