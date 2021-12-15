@@ -97,8 +97,8 @@
     {% else %}
         <aside class="reviews"></aside>
     {% endif %}
-    <aside class="paginator">
-        {% if page_obj.paginator.num_pages > 1 %}
+    {% if page_obj.paginator.num_pages > 1 %}
+        <aside class="paginator">
             {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo;</a>
                 <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
@@ -116,8 +116,8 @@
                 <span>&gt;</span>
                 <span>&raquo;</span>
             {% endif %}
-        {% endif %}
-    </aside>
+        </aside>
+    {% endif %}
     {% if user.is_authenticated %}
         <script>
             async function createOrder() {
